@@ -16,9 +16,9 @@ function withValidProperties(
 export function GET() {
   const body = {
     accountAssociation: {
-      header: minikitConfig.accountAssociation.header,
-      payload: minikitConfig.accountAssociation.payload,
-      signature: minikitConfig.accountAssociation.signature,
+      header: minikitConfig.accountAssociation?.header,
+      payload: minikitConfig.accountAssociation?.payload,
+      signature: minikitConfig.accountAssociation?.signature,
     },
     baseBuilder: {
       ownerAddress: minikitConfig.baseBuilder.ownerAddress,
