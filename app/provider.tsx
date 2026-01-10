@@ -1,9 +1,11 @@
 "use client";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { MiniAppProvider } from "@/components/providers/miniapp-provider";
 import { SafeAreaProvider } from "@/components/providers/safe-area-provider";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+
+const queryClient = new QueryClient();
 
 export function Provider({
   children,
@@ -11,15 +13,10 @@ export function Provider({
   children: ReactNode;
 }>) {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      storageKey="theme"
-    >
+    <QueryClientProvider client={queryClient}>
       <MiniAppProvider>
         <SafeAreaProvider>{children}</SafeAreaProvider>
       </MiniAppProvider>
-    </ThemeProvider>
+    </QueryClientProvider>
   );
 }
