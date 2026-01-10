@@ -20,9 +20,6 @@ export function GET() {
       payload: minikitConfig.accountAssociation?.payload,
       signature: minikitConfig.accountAssociation?.signature,
     },
-    baseBuilder: {
-      ownerAddress: minikitConfig.baseBuilder.ownerAddress,
-    },
     miniapp: withValidProperties({
       version: minikitConfig.miniapp.version,
       name: minikitConfig.miniapp.name,
