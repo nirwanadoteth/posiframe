@@ -1,6 +1,5 @@
 "use client";
 
-import { MiniKitProvider } from "@coinbase/onchainkit/minikit";
 import type { ReactNode } from "react";
 import { MiniAppProvider } from "@/components/providers/miniapp-provider";
 import { SafeAreaProvider } from "@/components/providers/safe-area-provider";
@@ -18,11 +17,9 @@ export function Provider({
       enableSystem
       storageKey="theme"
     >
-      <MiniKitProvider enabled={true}>
-        <MiniAppProvider>
-          <SafeAreaProvider>{children}</SafeAreaProvider>
-        </MiniAppProvider>
-      </MiniKitProvider>
+      <MiniAppProvider>
+        <SafeAreaProvider>{children}</SafeAreaProvider>
+      </MiniAppProvider>
     </ThemeProvider>
   );
 }

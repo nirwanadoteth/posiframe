@@ -1,54 +1,110 @@
 "use client";
-
-import { useMiniKit } from "@coinbase/onchainkit/minikit";
-import type { MiniAppContext as MiniAppCoreContext } from "@farcaster/miniapp-core/dist/context";
-import { sdk } from "@farcaster/miniapp-sdk";
+import sdk, { type Context } from "@farcaster/miniapp-sdk";
 import {
   createContext,
   type ReactNode,
-  useContext,
+  useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
+import type {
+  MiniAppContextType,
+  UpdateClientContextParams,
+} from "@/types/miniapp";
 
-type MiniAppContextType = {
-  context: MiniAppCoreContext | null;
-  isInMiniApp: boolean;
-} | null;
+export const MiniAppContext = createContext<MiniAppContextType>({
+  context: null,
+  updateClientContext: () => {
+    // no-op initially
+  },
+  notificationProxyUrl: "",
+});
 
-const MiniAppContext = createContext<MiniAppContextType>(null);
+function MiniAppProviderContent({ children }: { children: ReactNode }) {
+  const [context, setContext] = useState<Context.MiniAppContext | null>(null);
 
-export const useMiniAppContext = () => useContext(MiniAppContext);
-
-export function MiniAppProvider({ children }: { children: ReactNode }) {
-  const [miniAppContext, setMiniAppContext] =
-    useState<MiniAppContextType>(null);
-  const { context } = useMiniKit();
+  const updateClientContext = useCallback(
+    ({ details, miniAppAdded }: UpdateClientContextParams) => {
+      setContext((prevContext) => {
+        if (!prevContext) {
+          return null;
+        }
+        return {
+          ...prevContext,
+          client: {
+            ...prevContext.client,
+            notificationDetails: details ?? undefined,
+            added: miniAppAdded ?? prevContext.client.added,
+          },
+        };
+      });
+    },
+    []
+  );
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        const inMiniApp = await sdk.isInMiniApp();
-
-        setMiniAppContext({
-          context,
-          isInMiniApp: inMiniApp,
-        });
-      } catch {
-        // MiniApp initialization failure handled gracefully
-        setMiniAppContext({
-          context: null,
-          isInMiniApp: false,
+    sdk.on("miniAppAdded", ({ notificationDetails }) => {
+      if (notificationDetails) {
+        updateClientContext({
+          details: notificationDetails,
+          miniAppAdded: true,
         });
       }
+    });
+
+    sdk.on("miniAppAddRejected", ({ reason }) => {
+      console.error("MiniApp add rejected", reason);
+    });
+
+    sdk.on("miniAppRemoved", () => {
+      updateClientContext({
+        details: undefined,
+        miniAppAdded: false,
+      });
+    });
+
+    sdk.on("notificationsEnabled", ({ notificationDetails }) => {
+      updateClientContext({
+        details: notificationDetails,
+      });
+    });
+
+    sdk.on("notificationsDisabled", () => {
+      updateClientContext({
+        details: undefined,
+      });
+    });
+
+    async function fetchContext() {
+      try {
+        // if not running in a frame, context resolves as undefined
+        const miniAppContext = await sdk.context;
+        setContext(miniAppContext);
+      } catch (error) {
+        console.error("Error fetching context:", error);
+      }
+    }
+
+    fetchContext();
+
+    return () => {
+      sdk.removeAllListeners();
     };
+  }, [updateClientContext]);
 
-    init();
-  }, [context]);
-
-  return (
-    <MiniAppContext.Provider value={miniAppContext}>
-      {children}
-    </MiniAppContext.Provider>
+  const value = useMemo(
+    () => ({
+      context,
+      updateClientContext,
+      notificationProxyUrl: "/api/notify",
+    }),
+    [updateClientContext, context]
   );
+
+  return <MiniAppContext value={value}>{children}</MiniAppContext>;
+}
+
+export function MiniAppProvider({ children }: { children: ReactNode }) {
+  return <MiniAppProviderContent>{children}</MiniAppProviderContent>;
 }

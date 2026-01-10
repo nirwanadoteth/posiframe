@@ -1,7 +1,7 @@
 "use client";
 
-import { SafeArea } from "@coinbase/onchainkit/minikit";
 import type { ReactNode } from "react";
+import { SafeArea } from "@/components/safe-area";
 
 type SafeAreaProviderProps = {
   children: ReactNode;
