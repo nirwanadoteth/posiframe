@@ -10,10 +10,7 @@
     "format": "npx ultracite fix"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "^1.1.2",
-    "@farcaster/auth-kit": "^0.8.1",
     "@farcaster/miniapp-core": "^0.4.1",
-    "@farcaster/miniapp-node": "^0.1.11",
     "@farcaster/miniapp-sdk": "^0.2.1",
     "@farcaster/quick-auth": "^0.0.8",
     "@radix-ui/react-slot": "^1.2.4",
