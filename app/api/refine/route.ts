@@ -77,14 +77,18 @@ You must provide your response in the exact JSON format specified, including:
 - isNegative: Boolean indicating if negative sentiment was detected
 </output_requirements>`;
 
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseJsonSchema: zodToJsonSchema(responseSchema),
-      },
-    });
+    const response = await ai.models
+      .generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+        config: {
+          responseMimeType: "application/json",
+          responseJsonSchema: zodToJsonSchema(responseSchema),
+        },
+      })
+      .catch((error) => {
+        throw new Error(`AI Generation Error: ${error.message}`);
+      });
 
     const textResponse = response.text;
 
