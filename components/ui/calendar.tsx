@@ -14,7 +14,11 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-function CalendarRoot({ className, rootRef, ...props }: ComponentProps<"div"> & { rootRef?: React.Ref<HTMLDivElement> }) {
+function CalendarRoot({
+  className,
+  rootRef,
+  ...props
+}: ComponentProps<"div"> & { rootRef?: React.Ref<HTMLDivElement> }) {
   return (
     <div
       className={cn(className)}
@@ -25,25 +29,20 @@ function CalendarRoot({ className, rootRef, ...props }: ComponentProps<"div"> & 
   );
 }
 
-function CalendarChevron({ className, orientation, ...props }: ComponentProps<"svg"> & { orientation?: "left" | "right" | "up" | "down" }) {
+function CalendarChevron({
+  className,
+  orientation,
+  ...props
+}: ComponentProps<"svg"> & { orientation?: "left" | "right" | "up" | "down" }) {
   if (orientation === "left") {
-    return (
-      <ChevronLeftIcon className={cn("size-4", className)} {...props} />
-    );
+    return <ChevronLeftIcon className={cn("size-4", className)} {...props} />;
   }
 
   if (orientation === "right") {
-    return (
-      <ChevronRightIcon
-        className={cn("size-4", className)}
-        {...props}
-      />
-    );
+    return <ChevronRightIcon className={cn("size-4", className)} {...props} />;
   }
 
-  return (
-    <ChevronDownIcon className={cn("size-4", className)} {...props} />
-  );
+  return <ChevronDownIcon className={cn("size-4", className)} {...props} />;
 }
 
 function CalendarWeekNumber({ children, ...props }: ComponentProps<"td">) {
