@@ -16,7 +16,7 @@ This application was developed with specific research constraints:
 
 ### 2. **Input Processing**
 
-- **Text-only**: Processes text input in **English and Indonesian** languages only
+- **Text-only**: Processes text input in **English and Bahasa (Indonesia)** languages only
 - **No multimedia**: Does not process or moderate images, audio, or video content
 
 ### 3. **AI Technology Approach**
@@ -41,7 +41,7 @@ This application was developed with specific research constraints:
 
 Based on user needs survey, features are limited to:
 
-- ✅ **Text Input**: Draft messages in English or Indonesian
+- ✅ **Text Input**: Draft messages in English or Bahasa
 - ✅ **Automatic Reframing**: AI-powered reframing using Gemini
 - ✅ **Simple Sentiment Statistics**: Track analysis history (total, negative, positive)
 - ✅ **Direct Publish to Farcaster**: One-click publish to Farcaster feed
@@ -52,7 +52,7 @@ Based on user needs survey, features are limited to:
 
 ### 1. **Bilingual Sentiment Analysis**
 
-- Detects sentiment in both **English** and **Indonesian**
+- Detects sentiment in both **English** and **Bahasa**
 - Identifies negative, aggressive, passive-aggressive, or neutral tones
 - Provides reasoning for detected sentiment
 
@@ -155,7 +155,7 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ### Step 2: Draft Your Message
 
-- Type your message in English or Indonesian
+- Type your message in English or Bahasa
 - The textarea accepts any text input
 
 ### Step 3: Analyze & Refine
@@ -208,7 +208,7 @@ This application demonstrates:
 2. **Positive Rephrasing**: AI-powered language transformation strategies
 3. **BYOK Architecture**: User-controlled API key management
 4. **Mini App Integration**: Seamless Farcaster platform integration
-5. **Bilingual NLP**: English and Indonesian language processing
+5. **Bilingual NLP**: English and Bahasa language processing
 
 ---
 
