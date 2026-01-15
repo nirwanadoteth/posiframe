@@ -1,4 +1,3 @@
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -47,7 +46,7 @@ export function MessageForm({
               <FormItem>
                 <Textarea
                   className="min-h-[150px] resize-y bg-white dark:bg-zinc-900"
-                  placeholder="Type your message in English or Indonesian..."
+                  placeholder="Type your message in English or Bahasa..."
                   {...field}
                 />
                 <FormMessage />
