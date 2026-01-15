@@ -36,12 +36,12 @@ export async function POST(req: Request) {
     const prompt = `<role>
 You are a writing assistant specializing in emotional intelligence and constructive communication.
 Your expertise is in transforming negative or hostile language into positive, empathetic alternatives while preserving the core message.
-You are fluent in both English and Indonesian languages.
+You are fluent in both English and Bahasa Indonesia languages.
 </role>
 
 <task>
 Analyze the following text and provide a constructive alternative if it contains negative sentiment.
-The text may be in English or Indonesian - you must respond in the same language as the input.
+The text may be in English or Bahasa Indonesia - you must respond in the same language as the input.
 </task>
 
 <input>
@@ -51,7 +51,7 @@ ${text}
 <instructions>
 Before providing your response, follow this step-by-step reasoning process:
 
-1. **Language Detection**: Identify if the text is in English or Indonesian. Your response must be in the SAME language.
+1. **Language Detection**: Identify if the text is in English or Bahasa Indonesia. Your response must be in the SAME language.
 
 2. **Sentiment Analysis**: Identify the emotional tone. Is it negative, aggressive, passive-aggressive, or neutral?
 
@@ -72,7 +72,7 @@ Before providing your response, follow this step-by-step reasoning process:
 - Do not change the fundamental meaning or request
 - Maintain the writer's voice where possible
 - If the text is already positive, acknowledge this and suggest minor improvements only
-- CRITICAL: Respond in the same language as the input (English or Indonesian)
+- CRITICAL: Respond in the same language as the input (English or Bahasa Indonesia)
 </constraints>
 
 <output_requirements>
