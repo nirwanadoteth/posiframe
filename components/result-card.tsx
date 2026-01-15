@@ -1,5 +1,6 @@
-
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type RefineResult = {
   sentiment: string;
@@ -26,19 +27,16 @@ export function ResultCard({
   canPublish = false,
 }: ResultCardProps) {
   return (
-    <div className="fade-in slide-in-from-bottom-4 animate-in space-y-6 rounded-lg border bg-white p-6 shadow-sm duration-500 dark:bg-zinc-900">
-      <div className="space-y-4">
-        <div>
-          <h3 className="font-medium text-muted-foreground text-sm">
-            Sentiment Analysis
-          </h3>
-          <p
-            className={`font-semibold text-sm ${result.isNegative ? "text-red-500" : "text-green-500"}`}
-          >
+    <Card className="fade-in slide-in-from-bottom-4 animate-in duration-500">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle>Analysis Result</CardTitle>
+          <Badge variant={result.isNegative ? "destructive" : "default"}>
             {result.sentiment}
-          </p>
+          </Badge>
         </div>
-
+      </CardHeader>
+      <CardContent className="space-y-4">
         <div>
           <h3 className="font-medium text-muted-foreground text-sm">
             Reasoning
@@ -48,7 +46,7 @@ export function ResultCard({
           </p>
         </div>
 
-        <div className="rounded-md border border-blue-100 bg-blue-50 p-4 dark:border-blue-900 dark:bg-blue-900/10">
+        <div className="rounded-md border border-blue-100 bg-blue-50 p-2 dark:border-blue-900 dark:bg-blue-900/10">
           <h3 className="mb-2 font-semibold text-blue-900 dark:text-blue-100">
             Suggested Rewrite:
           </h3>
@@ -56,21 +54,21 @@ export function ResultCard({
             {result.suggestion}
           </p>
         </div>
-      </div>
 
-      <div className="flex justify-end gap-3 pt-4">
-        <Button onClick={onKeepOriginal} variant="outline">
-          Keep Original
-        </Button>
-        <Button onClick={onUseSuggestion} variant="secondary">
-          Use Suggestion
-        </Button>
-        {canPublish && onUseAndPublish && (
-          <Button disabled={isPublishing} onClick={onUseAndPublish}>
-            {isPublishing ? "Publishing..." : "Use & Publish"}
+        <div className="flex justify-end gap-3">
+          <Button onClick={onKeepOriginal} variant="outline">
+            Keep Original
           </Button>
-        )}
-      </div>
-    </div>
+          <Button onClick={onUseSuggestion} variant="secondary">
+            Use Suggestion
+          </Button>
+          {canPublish && onUseAndPublish && (
+            <Button disabled={isPublishing} onClick={onUseAndPublish}>
+              {isPublishing ? "Publishing..." : "Use & Publish"}
+            </Button>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
 }
