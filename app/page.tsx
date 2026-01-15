@@ -2,12 +2,15 @@
 
 import sdk from "@farcaster/miniapp-sdk";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AlertCircle } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Toaster, toast } from "sonner";
 import { ApiKeyCard } from "@/components/api-key-card";
 import { MessageForm } from "@/components/message-form";
 import { ResultCard } from "@/components/result-card";
 import { StatisticsCard } from "@/components/statistics-card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { useMiniApp } from "@/hooks/use-mini-app";
 import { useStatistics } from "@/hooks/use-statistics";
@@ -45,17 +48,24 @@ export default function Home() {
     setMiniAppReady();
   }, [setMiniAppReady]);
 
-  // Auto-clear success message after 3 seconds
+  // Show error toast
   useEffect(() => {
-    if (!successMessage) {
-      return;
+    if (error) {
+      toast.error(error, {
+        description: "Please try again",
+        duration: 5000,
+      });
     }
+  }, [error]);
 
-    const timer = setTimeout(() => {
+  // Show success toast
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage, {
+        duration: 3000,
+      });
       setSuccessMessage("");
-    }, 3000);
-
-    return () => clearTimeout(timer);
+    }
   }, [successMessage]);
 
   // Handle API key save
@@ -158,70 +168,62 @@ export default function Home() {
 
   // Main app screen
   return (
-    <div className="flex min-h-screen flex-col items-center bg-zinc-50 p-4 sm:p-8 dark:bg-black">
-      <div className="w-full max-w-2xl space-y-6">
-        {/* Header */}
-        <header className="flex items-center justify-between border-b pb-4">
-          <div>
-            <h1 className="font-bold text-2xl">PosiFrame</h1>
-            <p className="text-muted-foreground text-xs">
-              Transform negative language into positive communication
-            </p>
-          </div>
-          <Button
-            className="text-muted-foreground text-xs"
-            onClick={clearKey}
-            size="sm"
-            variant="ghost"
-          >
-            Clear Key
-          </Button>
-        </header>
+    <>
+      <div className="flex min-h-screen flex-col items-center bg-zinc-50 p-4 sm:p-8 dark:bg-black">
+        <div className="w-full max-w-2xl space-y-6">
+          <header className="flex items-center justify-between border-b pb-4">
+            <div>
+              <h1 className="font-bold text-2xl">PosiFrame</h1>
+              <p className="text-muted-foreground text-xs">
+                Transform negative language into positive communication
+              </p>
+            </div>
+            <Button
+              className="text-muted-foreground text-xs"
+              onClick={clearKey}
+              size="sm"
+              variant="ghost"
+            >
+              Clear Key
+            </Button>
+          </header>
 
-        {/* Statistics */}
-        <StatisticsCard statistics={statistics} />
+          <StatisticsCard statistics={statistics} />
 
-        {/* Message Form */}
-        <MessageFormWrapper
-          hasContext={!!context}
-          isAnalyzing={isAnalyzing}
-          isPublishing={isPublishing}
-          onPublish={handlePublishToFarcaster}
-          onSubmit={handleRefine}
-        />
-
-        {/* Error Message */}
-        {error && (
-          <div className="rounded-md bg-red-50 p-4 text-red-500 text-sm dark:bg-red-900/10">
-            {error}
-          </div>
-        )}
-
-        {/* Success Message */}
-        {successMessage && (
-          <div className="fade-in slide-in-from-bottom-4 animate-in rounded-md bg-green-50 p-4 text-green-600 text-sm duration-500 dark:bg-green-900/10">
-            {successMessage}
-          </div>
-        )}
-
-        {/* Result Card */}
-        {result && (
-          <ResultCard
-            canPublish={!!context}
+          <MessageFormWrapper
+            hasContext={!!context}
+            isAnalyzing={isAnalyzing}
             isPublishing={isPublishing}
-            onKeepOriginal={() => setResult(null)}
-            onUseAndPublish={() => {
-              if (result) {
-                handlePublishToFarcaster(result.suggestion);
-                setResult(null);
-              }
-            }}
-            onUseSuggestion={handleUseSuggestion}
-            result={result}
+            onPublish={handlePublishToFarcaster}
+            onSubmit={handleRefine}
           />
-        )}
+
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          {result && (
+            <ResultCard
+              canPublish={!!context}
+              isPublishing={isPublishing}
+              onKeepOriginal={() => setResult(null)}
+              onUseAndPublish={() => {
+                if (result) {
+                  handlePublishToFarcaster(result.suggestion);
+                  setResult(null);
+                }
+              }}
+              onUseSuggestion={handleUseSuggestion}
+              result={result}
+            />
+          )}
+        </div>
       </div>
-    </div>
+      <Toaster position="top-center" richColors />
+    </>
   );
 }
 
