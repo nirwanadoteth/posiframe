@@ -16,15 +16,20 @@
     "@farcaster/quick-auth": "^0.0.8",
     "@google/genai": "^1.35.0",
     "@radix-ui/react-slot": "^1.2.4",
-    "@tanstack/react-query": "^5.90.11",
+    "@tanstack/react-query": "^5.90.17",
+    "@trpc/client": "^11.8.1",
+    "@trpc/react-query": "^11.8.1",
+    "@trpc/server": "^11.8.1",
     "class-variance-authority": "^0.7.1",
+    "client-only": "^0.0.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.555.0",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^3.4.0",
-    "zod": "^3.25.1",
+    "zod": "^4.3.5",
     "zod-to-json-schema": "^3.25.1"
   },
   "devDependencies": {
@@ -42,6 +47,6 @@
   "overrides": {
     "@types/react": "19.2.8",
     "@types/react-dom": "19.2.3",
-    "zod": "^3.25.1"
+    "zod": "^4.3.5"
   }
 }
