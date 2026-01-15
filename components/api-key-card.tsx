@@ -1,5 +1,5 @@
-
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ExternalLink } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -75,12 +75,13 @@ export function ApiKeyCard({ onSave, isLoading = false }: ApiKeyCardProps) {
         <p className="text-muted-foreground text-xs">
           Don't have a key?{" "}
           <a
-            className="underline"
+            className="inline-flex items-center gap-1 font-medium text-blue-600 underline hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
             href="https://aistudio.google.com/app/apikey"
             rel="noopener noreferrer"
             target="_blank"
           >
             Get one here
+            <ExternalLink className="h-3 w-3" />
           </a>
           .
         </p>
