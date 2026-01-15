@@ -1,16 +1,16 @@
 import { z } from "zod";
 
 export const formSchemaRefine = z.object({
-  text: z.string().min(1, "Teks tidak boleh kosong"),
-  apiKey: z.string().min(1, "API Key diperlukan"),
+  text: z.string().min(1, "Text is required"),
+  apiKey: z.string().min(1, "API Key is required"),
 });
 
 export const messageSchema = z.object({
-  text: z.string().min(1, "Teks tidak boleh kosong"),
+  text: z.string().min(1, "Text is required"),
 });
 
 export const apiKeySchema = z.object({
-  apiKey: z.string().min(1, "API Key diperlukan"),
+  apiKey: z.string().min(1, "API Key is required"),
 });
 
 export type RefineTypes = z.infer<typeof formSchemaRefine>;
