@@ -12,6 +12,7 @@ import { ResultCard } from "@/components/result-card";
 import { StatisticsCard } from "@/components/statistics-card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useMiniApp } from "@/hooks/use-mini-app";
 import { useStatistics } from "@/hooks/use-statistics";
 import { useStoredApiKey } from "@/hooks/use-stored-api-key";
@@ -42,6 +43,7 @@ export default function Home() {
   const [result, setResult] = useState<RefineResult | null>(null);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [showApiKeyDialog, setShowApiKeyDialog] = useState(false);
 
   // Initialize mini app on mount
   useEffect(() => {
@@ -74,6 +76,8 @@ export default function Home() {
       const success = await saveKey(data.apiKey);
       if (success) {
         setError("");
+        setShowApiKeyDialog(false);
+        toast.success("API Key saved! You can now refine messages.");
       }
     },
     [saveKey]
@@ -83,6 +87,12 @@ export default function Home() {
   const handleRefine = useCallback(
     async (formData: MessageTypes) => {
       if (!formData.text.trim()) {
+        return;
+      }
+
+      // PROGRESSIVE AUTH: Check for key here, not at page load
+      if (!hasKey) {
+        setShowApiKeyDialog(true);
         return;
       }
 
@@ -111,13 +121,12 @@ export default function Home() {
         setIsAnalyzing(false);
       }
     },
-    [apiKey, updateStatistics]
+    [apiKey, hasKey, updateStatistics] // Added hasKey dependency
   );
 
   // Handle using suggestion in form
   const handleUseSuggestion = useCallback(() => {
     if (result) {
-      // This is handled in the MessageForm component
       setResult(null);
     }
   }, [result]);
@@ -145,11 +154,9 @@ export default function Home() {
           text: text.trim(),
         });
 
-        setSuccessMessage("Successfully opened Farcaster composer! 🎉");
+        setSuccessMessage("Successfully opened composer! 🎉");
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to publish to Farcaster"
-        );
+        setError(err instanceof Error ? err.message : "Failed to publish");
       } finally {
         setIsPublishing(false);
       }
@@ -157,16 +164,10 @@ export default function Home() {
     [context]
   );
 
-  // Show API key setup screen
-  if (!hasKey) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-50 p-4 dark:bg-black">
-        <ApiKeyCard isLoading={isAnalyzing} onSave={handleSaveKey} />
-      </div>
-    );
-  }
+  // Personalization
+  const username = context?.user?.username;
+  const greeting = username ? `Hello, @${username}!` : "Welcome!";
 
-  // Main app screen
   return (
     <>
       <div className="flex flex-1 flex-col items-center justify-center p-4 sm:p-8">
@@ -177,17 +178,19 @@ export default function Home() {
                 PosiFrame
               </h1>
               <p className="text-base text-muted-foreground">
-                Transform negative vibes into positive connections.
+                {greeting} Transform negative vibes into positive connections.
               </p>
             </div>
-            <Button
-              className="group text-muted-foreground hover:text-foreground"
-              onClick={clearKey}
-              size="sm"
-              variant="ghost"
-            >
-              Clear Key
-            </Button>
+            {hasKey && (
+              <Button
+                className="group text-muted-foreground hover:text-foreground"
+                onClick={clearKey}
+                size="sm"
+                variant="ghost"
+              >
+                Clear Key
+              </Button>
+            )}
           </header>
 
           <StatisticsCard statistics={statistics} />
@@ -199,6 +202,7 @@ export default function Home() {
               isPublishing={isPublishing}
               onPublish={handlePublishToFarcaster}
               onSubmit={handleRefine}
+              // Pre-fill for demo if desired, or leave empty
             />
           </div>
 
@@ -227,6 +231,16 @@ export default function Home() {
               result={result}
             />
           )}
+
+          {/* API Key Modal */}
+          <Dialog onOpenChange={setShowApiKeyDialog} open={showApiKeyDialog}>
+            <DialogContent className="sm:max-w-md">
+              <DialogTitle className="sr-only">
+                Connect Gemini API Key
+              </DialogTitle>
+              <ApiKeyCard isLoading={isAnalyzing} onSave={handleSaveKey} />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <Toaster closeButton position="top-center" richColors theme="system" />
