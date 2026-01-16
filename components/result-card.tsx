@@ -90,7 +90,7 @@ export function ResultCard({
                 disabled={isPublishing}
                 onClick={onUseAndPublish}
               >
-                {isPublishing ? "Publishing..." : "Use & Publish"}
+                {isPublishing ? "Sharing..." : "Use & Share"}
               </Button>
             )}
           </div>
