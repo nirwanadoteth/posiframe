@@ -35,26 +35,37 @@ export function MessageForm({
   };
 
   return (
-    <div className="space-y-2">
-      <h2 className="font-semibold text-lg">Draft your message</h2>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="font-heading font-semibold text-foreground text-xl">
+          Draft your message
+        </h2>
+        {!hasContext && (
+          <span className="rounded-full bg-yellow-100 px-2 py-0.5 font-medium text-xs text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-500">
+            Preview Mode
+          </span>
+        )}
+      </div>
+
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <form className="space-y-4" onSubmit={form.handleSubmit(handleSubmit)}>
           <FormField
             control={form.control}
             name="text"
             render={({ field }) => (
               <FormItem>
                 <Textarea
-                  className="min-h-[150px] resize-y bg-white dark:bg-zinc-900"
-                  placeholder="Type your message in English or Bahasa..."
+                  className="min-h-[150px] resize-y border-border bg-white/50 text-base shadow-inner backdrop-blur-sm transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/10 dark:bg-zinc-900/50 dark:focus:bg-zinc-900"
+                  placeholder="Type your message here (English or Bahasa)... e.g., 'You are so annoying!'"
                   {...field}
                 />
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className="mt-2 flex justify-end gap-2">
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
             <Button
+              className="border-primary/20 text-primary hover:bg-primary/5 hover:text-primary"
               disabled={isAnalyzing || isDisabled}
               type="submit"
               variant="outline"
@@ -62,6 +73,7 @@ export function MessageForm({
               {isAnalyzing ? "Analyzing..." : "Analyze & Refine"}
             </Button>
             <Button
+              className="bg-gradient-to-r from-primary to-purple-600 shadow-md transition-all hover:from-primary/90 hover:to-purple-600/90 hover:shadow-primary/25"
               disabled={isPublishing || isDisabled || !hasContext}
               onClick={onPublish}
               type="button"
@@ -72,8 +84,8 @@ export function MessageForm({
         </form>
       </Form>
       {!hasContext && (
-        <p className="text-right text-muted-foreground text-xs">
-          💡 Open in Farcaster app to publish casts
+        <p className="flex items-center justify-end gap-1 text-muted-foreground text-xs italic">
+          💡 Open in Farcaster to publish directly
         </p>
       )}
     </div>
