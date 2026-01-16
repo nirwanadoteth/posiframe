@@ -57,11 +57,13 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "flex min-h-screen flex-col overscroll-none font-sans antialiased",
+          "mesh-bg-light dark:mesh-bg-dark min-h-screen font-sans antialiased transition-colors duration-500",
           fontVariables
         )}
       >
-        <Provider>{children}</Provider>
+        <Provider>
+          <div className="relative flex min-h-screen flex-col">{children}</div>
+        </Provider>
       </body>
     </html>
   );
