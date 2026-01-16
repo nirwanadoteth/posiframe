@@ -1,4 +1,8 @@
-import { Geist_Mono as FontMono, Geist as FontSans } from "next/font/google";
+import {
+  Geist_Mono as FontMono,
+  Geist as FontSans,
+  Outfit,
+} from "next/font/google";
 
 import { cn } from "@/lib/utils";
 
@@ -14,4 +18,14 @@ const fontMono = FontMono({
   weight: ["400"],
 });
 
-export const fontVariables = cn(fontSans.variable, fontMono.variable);
+const fontHeading = Outfit({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+});
+
+export const fontVariables = cn(
+  fontSans.variable,
+  fontMono.variable,
+  fontHeading.variable
+);
