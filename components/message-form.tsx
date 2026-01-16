@@ -78,14 +78,14 @@ export function MessageForm({
               onClick={onPublish}
               type="button"
             >
-              {isPublishing ? "Publishing..." : "Publish to Farcaster"}
+              {isPublishing ? "Publishing..." : "Share to Feed"}
             </Button>
           </div>
         </form>
       </Form>
       {!hasContext && (
         <p className="flex items-center justify-end gap-1 text-muted-foreground text-xs italic">
-          💡 Open in Farcaster to publish directly
+          💡 Open in Farcaster/Base app to share directly
         </p>
       )}
     </div>
