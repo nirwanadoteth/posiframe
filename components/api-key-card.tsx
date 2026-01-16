@@ -34,16 +34,17 @@ export function ApiKeyCard({ onSave, isLoading = false }: ApiKeyCardProps) {
   };
 
   return (
-    <Card className="glass w-full max-w-md border-0 bg-white/50 shadow-2xl backdrop-blur-xl dark:bg-black/50">
-      <CardHeader className="space-y-1 text-center">
-        <CardTitle className="font-bold font-heading text-3xl tracking-tight">
-          Welcome to <span className="text-primary">PosiFrame</span>
+    <Card className="border-0 bg-transparent shadow-none">
+      <CardHeader className="space-y-1 p-0 pb-6 text-center">
+        <CardTitle className="font-bold font-heading text-2xl tracking-tight">
+          Connect Gemini
         </CardTitle>
-        <CardDescription className="text-base text-muted-foreground/80">
-          Enter your Gemini API Key to start transforming your framing.
+        <CardDescription className="text-muted-foreground/90 text-sm">
+          To refine your message, we need a small favor. Please enter your
+          Google Gemini API Key.
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0">
         <Form {...form}>
           <form
             className="flex flex-col gap-6"
@@ -82,8 +83,8 @@ export function ApiKeyCard({ onSave, isLoading = false }: ApiKeyCardProps) {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="justify-center border-border/10 border-t bg-muted/20 pt-4 pb-6">
-        <p className="text-muted-foreground text-sm">
+      <CardFooter className="justify-center p-0 pt-6">
+        <p className="text-muted-foreground text-xs">
           Don't have a key?{" "}
           <a
             className="inline-flex items-center gap-1 font-semibold text-primary decoration-2 underline-offset-2 hover:underline"
@@ -91,8 +92,8 @@ export function ApiKeyCard({ onSave, isLoading = false }: ApiKeyCardProps) {
             rel="noopener noreferrer"
             target="_blank"
           >
-            Get one here
-            <ExternalLink className="h-3.5 w-3.5" />
+            Get one for free
+            <ExternalLink className="h-3 w-3" />
           </a>
         </p>
       </CardFooter>
