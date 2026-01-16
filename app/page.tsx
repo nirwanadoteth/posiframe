@@ -169,17 +169,19 @@ export default function Home() {
   // Main app screen
   return (
     <>
-      <div className="flex min-h-screen flex-col items-center bg-zinc-50 p-4 sm:p-8 dark:bg-black">
-        <div className="w-full max-w-2xl space-y-6">
-          <header className="flex items-center justify-between border-b pb-4">
-            <div>
-              <h1 className="font-bold text-2xl">PosiFrame</h1>
-              <p className="text-muted-foreground text-xs">
-                Transform negative language into positive communication
+      <div className="flex flex-1 flex-col items-center justify-center p-4 sm:p-8">
+        <div className="fade-in slide-in-from-bottom-4 w-full max-w-2xl animate-in space-y-8 duration-700">
+          <header className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
+            <div className="space-y-1">
+              <h1 className="font-bold font-heading text-4xl text-gradient tracking-tight sm:text-5xl">
+                PosiFrame
+              </h1>
+              <p className="text-base text-muted-foreground">
+                Transform negative vibes into positive connections.
               </p>
             </div>
             <Button
-              className="text-muted-foreground text-xs"
+              className="group text-muted-foreground hover:text-foreground"
               onClick={clearKey}
               size="sm"
               variant="ghost"
@@ -190,16 +192,21 @@ export default function Home() {
 
           <StatisticsCard statistics={statistics} />
 
-          <MessageFormWrapper
-            hasContext={!!context}
-            isAnalyzing={isAnalyzing}
-            isPublishing={isPublishing}
-            onPublish={handlePublishToFarcaster}
-            onSubmit={handleRefine}
-          />
+          <div className="glass-card rounded-2xl p-6 sm:p-8">
+            <MessageFormWrapper
+              hasContext={!!context}
+              isAnalyzing={isAnalyzing}
+              isPublishing={isPublishing}
+              onPublish={handlePublishToFarcaster}
+              onSubmit={handleRefine}
+            />
+          </div>
 
           {error && (
-            <Alert variant="destructive">
+            <Alert
+              className="fade-in zoom-in-95 animate-in duration-300"
+              variant="destructive"
+            >
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>{error}</AlertDescription>
             </Alert>
@@ -222,12 +229,11 @@ export default function Home() {
           )}
         </div>
       </div>
-      <Toaster position="top-center" richColors />
+      <Toaster closeButton position="top-center" richColors theme="system" />
     </>
   );
 }
 
-// Wrapper component to manage form state
 function MessageFormWrapper({
   onSubmit,
   onPublish,
