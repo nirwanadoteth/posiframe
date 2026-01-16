@@ -1,3 +1,4 @@
+import { BarChart3, MessageSquare, ThumbsUp } from "lucide-react";
 
 type Statistics = {
   totalAnalyses: number;
@@ -15,24 +16,47 @@ export function StatisticsCard({ statistics }: StatisticsCardProps) {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-4 rounded-lg bg-white p-4 shadow-sm dark:bg-zinc-900">
-      <div className="text-center">
-        <p className="font-bold text-2xl text-blue-600 dark:text-blue-400">
-          {statistics.totalAnalyses}
-        </p>
-        <p className="text-muted-foreground text-xs">Total Analyses</p>
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="glass-card flex items-center gap-4 rounded-xl p-4">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+          <MessageSquare className="h-6 w-6" />
+        </div>
+        <div>
+          <p className="font-bold text-2xl text-foreground">
+            {statistics.totalAnalyses}
+          </p>
+          <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
+            Analyses
+          </p>
+        </div>
       </div>
-      <div className="text-center">
-        <p className="font-bold text-2xl text-red-600 dark:text-red-400">
-          {statistics.negativeCount}
-        </p>
-        <p className="text-muted-foreground text-xs">Negative Detected</p>
+
+      <div className="glass-card flex items-center gap-4 rounded-xl p-4">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">
+          <BarChart3 className="h-6 w-6" />
+        </div>
+        <div>
+          <p className="font-bold text-2xl text-foreground">
+            {statistics.negativeCount}
+          </p>
+          <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
+            Reframed
+          </p>
+        </div>
       </div>
-      <div className="text-center">
-        <p className="font-bold text-2xl text-green-600 dark:text-green-400">
-          {statistics.positiveCount}
-        </p>
-        <p className="text-muted-foreground text-xs">Already Positive</p>
+
+      <div className="glass-card flex items-center gap-4 rounded-xl p-4">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+          <ThumbsUp className="h-6 w-6" />
+        </div>
+        <div>
+          <p className="font-bold text-2xl text-foreground">
+            {statistics.positiveCount}
+          </p>
+          <p className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
+            Positive
+          </p>
+        </div>
       </div>
     </div>
   );
