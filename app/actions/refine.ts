@@ -1,37 +1,43 @@
+"use server";
+
 import { GoogleGenAI } from "@google/genai";
-import { NextResponse } from "next/server";
 import z from "zod/v3";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
-export async function POST(req: Request) {
+const responseSchema = z.object({
+  sentiment: z.string().describe("Brief description of the detected sentiment"),
+  reasoning: z.string().describe("The internal reasoning process summarized"),
+  suggestion: z.string().describe("The suggested rewritten text"),
+  isNegative: z
+    .boolean()
+    .describe("Whether the text contains negative sentiment"),
+});
+
+export type RefineResult = z.infer<typeof responseSchema>;
+
+export type RefineActionState = {
+  success?: boolean;
+  data?: RefineResult;
+  error?: string;
+};
+
+export async function refineMessage(
+  _prevState: RefineActionState,
+  formData: FormData
+): Promise<RefineActionState> {
+  const text = formData.get("text") as string;
+  const apiKey = formData.get("apiKey") as string;
+
+  if (!text) {
+    return { error: "Text is required" };
+  }
+
+  if (!apiKey) {
+    return { error: "API Key is required" };
+  }
+
   try {
-    const { text, apiKey } = await req.json();
-
-    if (!text) {
-      return NextResponse.json({ error: "Text is required" }, { status: 400 });
-    }
-
-    if (!apiKey) {
-      return NextResponse.json(
-        { error: "API Key is required" },
-        { status: 401 }
-      );
-    }
-
     const ai = new GoogleGenAI({ vertexai: false, apiKey });
-
-    const responseSchema = z.object({
-      sentiment: z
-        .string()
-        .describe("Brief description of the detected sentiment"),
-      reasoning: z
-        .string()
-        .describe("The internal reasoning process summarized"),
-      suggestion: z.string().describe("The suggested rewritten text"),
-      isNegative: z
-        .boolean()
-        .describe("Whether the text contains negative sentiment"),
-    });
 
     const prompt = `<role>
 You are a writing assistant specializing in emotional intelligence and constructive communication.
@@ -103,11 +109,11 @@ You must provide your response in the exact JSON format specified, including:
     }
 
     const jsonResponse = responseSchema.parse(JSON.parse(textResponse));
-    return NextResponse.json(jsonResponse);
+    return { success: true, data: jsonResponse };
   } catch (error) {
-    console.error("API Error:", error);
-    const errorMessage =
-      error instanceof Error ? error.message : "Internal Server Error";
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+    console.error("Refine Action Error:", error);
+    return {
+      error: error instanceof Error ? error.message : "Internal Server Error",
+    };
   }
 }
