@@ -3,9 +3,10 @@
 import sdk from "@farcaster/miniapp-sdk";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
+import { type RefineResult, refineMessage } from "@/app/actions/refine";
 import { ApiKeyCard } from "@/components/api-key-card";
 import { MessageForm } from "@/components/message-form";
 import { ResultCard } from "@/components/result-card";
@@ -22,13 +23,6 @@ import {
   messageSchema,
 } from "@/lib/schema";
 
-type RefineResult = {
-  sentiment: string;
-  reasoning: string;
-  suggestion: string;
-  isNegative: boolean;
-};
-
 export default function Home() {
   // Mini app context and initialization
   const { context, setMiniAppReady } = useMiniApp();
@@ -38,7 +32,7 @@ export default function Home() {
   const { statistics, updateStatistics } = useStatistics();
 
   // UI state management
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [isPublishing, setIsPublishing] = useState(false);
   const [result, setResult] = useState<RefineResult | null>(null);
   const [error, setError] = useState("");
@@ -96,32 +90,28 @@ export default function Home() {
         return;
       }
 
-      setIsAnalyzing(true);
       setError("");
       setResult(null);
 
-      try {
-        const response = await fetch("/api/refine", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: formData.text, apiKey }),
-        });
+      startTransition(async () => {
+        const payload = new FormData();
+        payload.append("text", formData.text);
+        payload.append("apiKey", apiKey);
 
-        const data = await response.json();
+        const result = await refineMessage(
+          {}, // prevState
+          payload
+        );
 
-        if (!response.ok) {
-          throw new Error(data.error || "Failed to refine text");
+        if (result.error) {
+          setError(result.error);
+        } else if (result.success && result.data) {
+          setResult(result.data);
+          updateStatistics(result.data.isNegative);
         }
-
-        setResult(data);
-        updateStatistics(data.isNegative);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
-      } finally {
-        setIsAnalyzing(false);
-      }
+      });
     },
-    [apiKey, hasKey, updateStatistics] // Added hasKey dependency
+    [apiKey, hasKey, updateStatistics]
   );
 
   // Handle using suggestion in form
@@ -198,7 +188,7 @@ export default function Home() {
           <div className="glass-card rounded-2xl p-6 sm:p-8">
             <MessageFormWrapper
               hasContext={!!context}
-              isAnalyzing={isAnalyzing}
+              isAnalyzing={isPending}
               isPublishing={isPublishing}
               onPublish={handlePublishToFarcaster}
               onSubmit={handleRefine}
@@ -238,7 +228,7 @@ export default function Home() {
               <DialogTitle className="sr-only">
                 Connect Gemini API Key
               </DialogTitle>
-              <ApiKeyCard isLoading={isAnalyzing} onSave={handleSaveKey} />
+              <ApiKeyCard isLoading={isPending} onSave={handleSaveKey} />
             </DialogContent>
           </Dialog>
         </div>
