@@ -8,6 +8,9 @@
     "ultracite/biome/react",
     "ultracite/biome/next"
   ],
+  "files": {
+    "includes": ["**/*", "!components/ui/*"]
+  },
   "linter": {
     "rules": {
       "style": {
