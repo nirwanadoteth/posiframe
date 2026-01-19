@@ -1,7 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { STORAGE_KEYS } from "@/lib/constants";
 import { decryptData, encryptData } from "@/lib/crypto";
+import { storage } from "@/lib/storage";
 
 type UseStoredApiKeyReturn = {
   apiKey: string;
@@ -20,9 +22,7 @@ export function useStoredApiKey(): UseStoredApiKeyReturn {
   useEffect(() => {
     const loadStoredKey = async () => {
       try {
-        const storedEncryptedKey = localStorage.getItem(
-          "gemini_api_key_secure"
-        );
+        const storedEncryptedKey = storage.getItem(STORAGE_KEYS.API_KEY);
         if (storedEncryptedKey) {
           const decryptedKey = await decryptData(storedEncryptedKey);
           if (decryptedKey) {
@@ -48,7 +48,7 @@ export function useStoredApiKey(): UseStoredApiKeyReturn {
     try {
       const encrypted = await encryptData(newKey.trim());
       if (encrypted) {
-        localStorage.setItem("gemini_api_key_secure", encrypted);
+        storage.setItem(STORAGE_KEYS.API_KEY, encrypted);
         setApiKey(newKey.trim());
         setHasKey(true);
         return true;
@@ -61,11 +61,7 @@ export function useStoredApiKey(): UseStoredApiKeyReturn {
   }, []);
 
   const clearKey = useCallback(() => {
-    try {
-      localStorage.removeItem("gemini_api_key_secure");
-    } catch {
-      // Ignore - localStorage may throw in private browsing
-    }
+    storage.removeItem(STORAGE_KEYS.API_KEY);
     setApiKey("");
     setHasKey(false);
   }, []);
