@@ -3,6 +3,7 @@
 import sdk from "@farcaster/miniapp-sdk";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle } from "lucide-react";
+import Image from "next/image";
 import { useCallback, useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
@@ -154,9 +155,9 @@ export default function Home() {
     [context]
   );
 
-  // Personalization
-  const username = context?.user?.username;
-  const greeting = username ? `Hello, @${username}!` : "Welcome!";
+  // User info from mini app context
+  const user = context?.user;
+  const greeting = user?.username ? `Hello, @${user.username}!` : "Welcome!";
 
   return (
     <>
@@ -171,16 +172,34 @@ export default function Home() {
                 {greeting} Transform negative vibes into positive connections.
               </p>
             </div>
-            {hasKey && (
-              <Button
-                className="group text-muted-foreground hover:text-foreground"
-                onClick={clearKey}
-                size="sm"
-                variant="ghost"
-              >
-                Clear Key
-              </Button>
-            )}
+            <div className="flex items-center gap-3">
+              {user && (
+                <div className="flex items-center gap-2 rounded-full bg-background/50 px-3 py-1.5 backdrop-blur-sm">
+                  {user.pfpUrl && (
+                    <Image
+                      alt={user.displayName || user.username || "Profile"}
+                      className="rounded-full ring-2 ring-primary/20"
+                      height={32}
+                      src={user.pfpUrl}
+                      width={32}
+                    />
+                  )}
+                  <span className="font-medium text-foreground text-sm">
+                    @{user.username}
+                  </span>
+                </div>
+              )}
+              {hasKey && (
+                <Button
+                  className="group text-muted-foreground hover:text-foreground"
+                  onClick={clearKey}
+                  size="sm"
+                  variant="ghost"
+                >
+                  Clear Key
+                </Button>
+              )}
+            </div>
           </header>
 
           <StatisticsCard statistics={statistics} />
