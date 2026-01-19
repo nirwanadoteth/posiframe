@@ -1,17 +1,17 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import type { ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import { MiniAppProvider } from "@/components/providers/miniapp-provider";
 import { SafeArea } from "@/components/safe-area";
-
-const queryClient = new QueryClient();
 
 export function Provider({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <QueryClientProvider client={queryClient}>
       <MiniAppProvider>
