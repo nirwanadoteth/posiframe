@@ -61,7 +61,11 @@ export function useStoredApiKey(): UseStoredApiKeyReturn {
   }, []);
 
   const clearKey = useCallback(() => {
-    localStorage.removeItem("gemini_api_key_secure");
+    try {
+      localStorage.removeItem("gemini_api_key_secure");
+    } catch {
+      // Ignore - localStorage may throw in private browsing
+    }
     setApiKey("");
     setHasKey(false);
   }, []);
