@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-
-const STORAGE_KEY = "posiframe_statistics";
+import { STORAGE_KEYS } from "@/lib/constants";
+import { storage } from "@/lib/storage";
 
 type Statistics = {
   totalAnalyses: number;
@@ -30,7 +30,7 @@ export function useStatistics(): UseStatisticsReturn {
   // Load statistics on mount
   useEffect(() => {
     try {
-      const storedStats = localStorage.getItem(STORAGE_KEY);
+      const storedStats = storage.getItem(STORAGE_KEYS.STATISTICS);
       if (storedStats) {
         const parsed = JSON.parse(storedStats) as Statistics;
         setStatistics(parsed);
@@ -49,22 +49,14 @@ export function useStatistics(): UseStatisticsReturn {
         negativeCount: isNegative ? prev.negativeCount + 1 : prev.negativeCount,
         positiveCount: isNegative ? prev.positiveCount : prev.positiveCount + 1,
       };
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-      } catch {
-        // Ignore - localStorage may throw in private browsing
-      }
+      storage.setItem(STORAGE_KEYS.STATISTICS, JSON.stringify(updated));
       return updated;
     });
   }, []);
 
   const resetStatistics = useCallback(() => {
     setStatistics(DEFAULT_STATISTICS);
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      // Ignore - localStorage may throw in private browsing
-    }
+    storage.removeItem(STORAGE_KEYS.STATISTICS);
   }, []);
 
   return {
