@@ -3,7 +3,6 @@
 import sdk from "@farcaster/miniapp-sdk";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle } from "lucide-react";
-import Image from "next/image";
 import { useCallback, useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
@@ -13,6 +12,7 @@ import { MessageForm } from "@/components/message-form";
 import { ResultCard } from "@/components/result-card";
 import { StatisticsCard } from "@/components/statistics-card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useMiniApp } from "@/hooks/use-mini-app";
@@ -175,15 +175,15 @@ export default function Home() {
             <div className="flex items-center gap-3">
               {user && (
                 <div className="flex items-center gap-2 rounded-full bg-background/50 px-3 py-1.5 backdrop-blur-sm">
-                  {user.pfpUrl && (
-                    <Image
+                  <Avatar className="h-8 w-8 ring-2 ring-primary/20">
+                    <AvatarImage
                       alt={user.displayName || user.username || "Profile"}
-                      className="rounded-full ring-2 ring-primary/20"
-                      height={32}
                       src={user.pfpUrl}
-                      width={32}
                     />
-                  )}
+                    <AvatarFallback>
+                      {user.username?.slice(0, 2).toUpperCase() || "?"}
+                    </AvatarFallback>
+                  </Avatar>
                   <span className="font-medium text-foreground text-sm">
                     @{user.username}
                   </span>
