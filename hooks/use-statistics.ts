@@ -49,14 +49,22 @@ export function useStatistics(): UseStatisticsReturn {
         negativeCount: isNegative ? prev.negativeCount + 1 : prev.negativeCount,
         positiveCount: isNegative ? prev.positiveCount : prev.positiveCount + 1,
       };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      } catch {
+        // Ignore - localStorage may throw in private browsing
+      }
       return updated;
     });
   }, []);
 
   const resetStatistics = useCallback(() => {
     setStatistics(DEFAULT_STATISTICS);
-    localStorage.removeItem(STORAGE_KEY);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Ignore - localStorage may throw in private browsing
+    }
   }, []);
 
   return {
