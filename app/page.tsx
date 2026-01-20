@@ -9,6 +9,7 @@ import { Toaster, toast } from "sonner";
 import { type RefineResult, refineMessage } from "@/app/actions/refine";
 import { ApiKeyCard } from "@/components/api-key-card";
 import { MessageForm } from "@/components/message-form";
+import { OnboardingModal } from "@/components/onboarding-modal";
 import { ResultCard } from "@/components/result-card";
 import { StatisticsCard } from "@/components/statistics-card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -157,47 +158,36 @@ export default function Home() {
 
   // User info from mini app context
   const user = context?.user;
-  const greeting = user?.username ? `Hello, @${user.username}!` : "Welcome!";
 
   return (
     <>
       <div className="flex flex-1 flex-col items-center justify-center p-4">
         <div className="fade-in slide-in-from-bottom-4 w-full max-w-2xl animate-in space-y-4 duration-700">
-          <header className="flex flex-col gap-4">
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0 flex-1 space-y-1">
-                <h1 className="font-bold font-heading text-3xl text-gradient tracking-tight sm:text-4xl">
-                  PosiFrame
-                </h1>
-                <p className="text-muted-foreground text-sm sm:text-base">
-                  {greeting} Transform negative vibes into positive connections.
-                </p>
-              </div>
-              {user && (
-                <div className="flex shrink-0 items-center gap-2 rounded-full bg-background/50 px-2 py-1 backdrop-blur-sm sm:px-3 sm:py-1.5">
-                  <Avatar className="h-7 w-7 ring-2 ring-primary/20 sm:h-8 sm:w-8">
-                    <AvatarImage
-                      alt={user.displayName || user.username || "Profile"}
-                      src={user.pfpUrl}
-                    />
-                    <AvatarFallback className="text-xs">
-                      {user.username?.slice(0, 2).toUpperCase() || "?"}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="hidden font-medium text-foreground text-sm sm:inline">
-                    @{user.username}
-                  </span>
-                </div>
-              )}
+          <header className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 rounded-full bg-background/50 px-2 py-1 backdrop-blur-sm sm:px-3 sm:py-1.5">
+              <Avatar className="h-7 w-7 ring-2 ring-primary/20 sm:h-8 sm:w-8">
+                {user?.pfpUrl ? (
+                  <AvatarImage
+                    alt={user.displayName || user.username || "Profile"}
+                    src={user.pfpUrl}
+                  />
+                ) : null}
+                <AvatarFallback className="text-xs">
+                  {user?.username?.slice(0, 2).toUpperCase() || "?"}
+                </AvatarFallback>
+              </Avatar>
+              <span className="font-medium text-foreground text-sm">
+                {user?.username ? `@${user.username}` : "Guest"}
+              </span>
             </div>
             {hasKey && (
               <Button
-                className="w-full text-muted-foreground hover:text-foreground sm:w-auto sm:self-end"
+                className="text-muted-foreground hover:text-foreground"
                 onClick={clearKey}
                 size="sm"
                 variant="ghost"
               >
-                Clear API Key
+                Clear Key
               </Button>
             )}
           </header>
@@ -252,6 +242,10 @@ export default function Home() {
           </Dialog>
         </div>
       </div>
+
+      {/* Onboarding Modal */}
+      <OnboardingModal username={user?.username} />
+
       <Toaster closeButton position="top-center" richColors theme="system" />
     </>
   );
