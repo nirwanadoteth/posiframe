@@ -2,6 +2,7 @@
 export const STORAGE_KEYS = {
   API_KEY: "gemini_api_key_secure",
   STATISTICS: "posiframe_statistics",
+  ONBOARDING_COMPLETE: "posiframe_onboarding_complete",
 } as const;
 
 /** AI Model configuration */
