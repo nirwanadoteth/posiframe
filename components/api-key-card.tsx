@@ -35,7 +35,7 @@ export function ApiKeyCard({ onSave, isLoading = false }: ApiKeyCardProps) {
 
   return (
     <Card className="border-0 bg-transparent shadow-none">
-      <CardHeader className="space-y-1 p-0 pb-6 text-center">
+      <CardHeader className="space-y-1 p-0 pb-4 text-center">
         <CardTitle className="font-bold font-heading text-2xl tracking-tight">
           Connect Gemini
         </CardTitle>
@@ -47,7 +47,7 @@ export function ApiKeyCard({ onSave, isLoading = false }: ApiKeyCardProps) {
       <CardContent className="p-0">
         <Form {...form}>
           <form
-            className="flex flex-col gap-6"
+            className="flex flex-col gap-4"
             onSubmit={form.handleSubmit(handleSubmit)}
           >
             <FormField
@@ -83,7 +83,7 @@ export function ApiKeyCard({ onSave, isLoading = false }: ApiKeyCardProps) {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="justify-center p-0 pt-6">
+      <CardFooter className="justify-center p-0 pt-4">
         <p className="text-muted-foreground text-xs">
           Don't have a key?{" "}
           <a
