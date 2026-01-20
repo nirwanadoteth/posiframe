@@ -47,7 +47,7 @@ export function ResultCard({
         </Badge>
       </CardHeader>
 
-      <CardContent className="space-y-6 pt-4">
+      <CardContent className="space-y-4 pt-4">
         <div className="space-y-2">
           <h3 className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
             Analysis & Reasoning
@@ -68,32 +68,33 @@ export function ResultCard({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:justify-end">
+        <div className="flex flex-col gap-2 sm:flex-row sm:justify-end sm:gap-3">
           <Button
-            className="text-muted-foreground hover:text-foreground"
+            className="order-3 text-muted-foreground hover:text-foreground sm:order-1"
             onClick={onKeepOriginal}
+            size="sm"
             variant="ghost"
           >
             Keep Original
           </Button>
-          <div className="flex flex-col gap-2 sm:col-span-2 sm:flex-row lg:col-span-1">
+          <Button
+            className="order-2 border-primary/20 hover:bg-primary/5"
+            onClick={onUseSuggestion}
+            size="sm"
+            variant="outline"
+          >
+            Use Suggestion
+          </Button>
+          {canPublish && onUseAndPublish && (
             <Button
-              className="flex-1 border-primary/20 hover:bg-primary/5"
-              onClick={onUseSuggestion}
-              variant="outline"
+              className="order-1 bg-primary text-primary-foreground hover:bg-primary/90 sm:order-3"
+              disabled={isPublishing}
+              onClick={onUseAndPublish}
+              size="sm"
             >
-              Use Suggestion
+              {isPublishing ? "Sharing..." : "Use & Share"}
             </Button>
-            {canPublish && onUseAndPublish && (
-              <Button
-                className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
-                disabled={isPublishing}
-                onClick={onUseAndPublish}
-              >
-                {isPublishing ? "Sharing..." : "Use & Share"}
-              </Button>
-            )}
-          </div>
+          )}
         </div>
       </CardContent>
     </Card>
