@@ -59,8 +59,8 @@ export function MessageForm({
             render={({ field }) => (
               <FormItem>
                 <Textarea
-                  className="min-h-[150px] resize-y border-border bg-white/50 text-base shadow-inner backdrop-blur-sm transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/10 dark:bg-zinc-900/50 dark:focus:bg-zinc-900"
-                  placeholder="Type your message here (English or Bahasa)... e.g., 'You are so annoying!'"
+                  className="min-h-[120px] resize-y border-border bg-white/50 text-base shadow-inner backdrop-blur-sm transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/10 sm:min-h-[150px] dark:bg-zinc-900/50 dark:focus:bg-zinc-900"
+                  placeholder="Type your message here..."
                   {...field}
                 />
                 <FormMessage />
