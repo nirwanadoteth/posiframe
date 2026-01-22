@@ -25,7 +25,7 @@ import {
   messageSchema,
 } from "@/lib/schema";
 
-export default function Home() {
+export default function Home({ initialText }: { initialText?: string }) {
   // Mini app context and initialization
   const { context, setMiniAppReady } = useMiniApp();
 
@@ -125,8 +125,8 @@ export default function Home() {
 
   // Handle Farcaster publish
   const handlePublishToFarcaster = useCallback(
-    async (text: string) => {
-      if (!text.trim()) {
+    async (textOrUrl: string) => {
+      if (!textOrUrl.trim()) {
         setError("Please enter text to publish");
         return;
       }
@@ -142,8 +142,13 @@ export default function Home() {
           );
         }
 
+        // If it looks like a URL (our share URL), we might want to attach it specifically
+        // But composeCast usually takes text or embeds.
+        // For Simplicity: We will just put the text in the composer for now.
+        // If it is a share URL, we append it.
+
         await sdk.actions.composeCast({
-          text: text.trim(),
+          text: textOrUrl.trim(),
         });
 
         setSuccessMessage("Successfully opened composer! 🎉");
@@ -197,11 +202,11 @@ export default function Home() {
           <div className="glass-card rounded-2xl p-4 sm:p-6">
             <MessageFormWrapper
               hasContext={!!context}
+              initialText={initialText}
               isAnalyzing={isPending}
               isPublishing={isPublishing}
               onPublish={handlePublishToFarcaster}
               onSubmit={handleRefine}
-              // Pre-fill for demo if desired, or leave empty
             />
           </div>
 
@@ -220,9 +225,14 @@ export default function Home() {
               canPublish={!!context}
               isPublishing={isPublishing}
               onKeepOriginal={() => setResult(null)}
-              onUseAndPublish={() => {
+              onUseAndPublish={(shareUrl) => {
                 if (result) {
-                  handlePublishToFarcaster(result.suggestion);
+                  // If we have a shareUrl, we use that. Otherwise we use the suggestion text.
+                  const contentToShare = shareUrl
+                    ? `I just reframed my thoughts with PosiFrame! ✨\n\n${shareUrl}`
+                    : result.suggestion;
+
+                  handlePublishToFarcaster(contentToShare);
                   setResult(null);
                 }
               }}
@@ -257,16 +267,18 @@ function MessageFormWrapper({
   isAnalyzing,
   isPublishing,
   hasContext,
+  initialText,
 }: {
   onSubmit: (data: MessageTypes) => Promise<void>;
   onPublish: (text: string) => Promise<void>;
   isAnalyzing: boolean;
   isPublishing: boolean;
   hasContext: boolean;
+  initialText?: string;
 }) {
   const form = useForm<MessageTypes>({
     defaultValues: {
-      text: "",
+      text: initialText || "",
     },
     resolver: zodResolver(messageSchema),
   });
