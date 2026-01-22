@@ -7,14 +7,12 @@ export function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
 
-    // ?text=... OR ?streak=...&count=...
     const text = searchParams.get("text")?.slice(0, 100);
     const streak = searchParams.get("streak");
     const count = searchParams.get("count");
 
     const title = "PosiFrame";
 
-    // Determine content to render: Text Quote OR Stats
     let content: JSX.Element;
 
     if (streak && count) {
@@ -142,7 +140,7 @@ export function GET(request: Request) {
       </div>,
       {
         width: 1200,
-        height: 800, // 3:2 Aspect Ratio for Mini App Embeds
+        height: 800,
       }
     );
   } catch (e) {
