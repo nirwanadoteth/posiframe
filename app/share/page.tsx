@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { HomeContent } from "@/components/home-content";
 import { minikitConfig } from "@/minikit.config";
-import Home from "../page";
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -45,7 +45,7 @@ export async function generateMetadata({
       title: "Launch PosiFrame",
       action: {
         type: "launch_frame",
-        url: minikitConfig.miniapp.homeUrl, // Always launch to home for now
+        url: minikitConfig.miniapp.homeUrl,
         name: minikitConfig.miniapp.name,
         splashImageUrl: minikitConfig.miniapp.splashImageUrl,
         splashBackgroundColor: minikitConfig.miniapp.splashBackgroundColor,
@@ -71,5 +71,5 @@ export default async function SharePage({ searchParams }: Props) {
   const params = await searchParams;
   const text = typeof params.text === "string" ? params.text : undefined;
 
-  return <Home initialText={text} />;
+  return <HomeContent initialText={text} />;
 }
