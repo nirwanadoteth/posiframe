@@ -5,6 +5,7 @@ import { Flame, Share2, ShieldCheck, Trophy } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { minikitConfig } from "@/minikit.config";
 
 type Statistics = {
   totalAnalyses: number;
@@ -37,12 +38,12 @@ export function StatisticsCard({
 
   const handleShare = async () => {
     try {
-      const text = `I've reframed ${statistics.negativeCount} toxic messages and maintained a ${statistics.streakCount}-day positivity streak with PosiFrame! 🧘 ✨\n\nTurning vibes into value.`;
+      const shareUrl = `${minikitConfig.miniapp.homeUrl}/share?streak=${statistics.streakCount}&count=${statistics.negativeCount}`;
+      const text = `I've reframed ${statistics.negativeCount} toxic messages and maintained a ${statistics.streakCount}-day positivity streak with PosiFrame! 🧘 ✨\n\nTurning vibes into value. ${shareUrl}`;
+
       await sdk.actions.composeCast({
         text,
-        embeds: [
-          // We could add an image embed here in the future
-        ],
+        embeds: [],
       });
     } catch (error) {
       console.error("Failed to open composer", error);
