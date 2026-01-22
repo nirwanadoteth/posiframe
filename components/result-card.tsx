@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { minikitConfig } from "@/minikit.config";
 
 type RefineResult = {
   sentiment: string;
@@ -14,7 +15,7 @@ type ResultCardProps = {
   result: RefineResult;
   onKeepOriginal: () => void;
   onUseSuggestion: () => void;
-  onUseAndPublish?: () => void;
+  onUseAndPublish?: (shareUrl?: string) => void;
   isPublishing?: boolean;
   canPublish?: boolean;
 };
@@ -27,6 +28,19 @@ export function ResultCard({
   isPublishing = false,
   canPublish = false,
 }: ResultCardProps) {
+  const handleUseAndPublish = () => {
+    if (!onUseAndPublish) {
+      return;
+    }
+
+    // Construct the viral share URL
+    const shareUrl = `${minikitConfig.miniapp.homeUrl}/share?text=${encodeURIComponent(
+      result.suggestion
+    )}`;
+
+    onUseAndPublish(shareUrl);
+  };
+
   return (
     <Card className="glass-card fade-in slide-in-from-bottom-8 relative animate-in overflow-hidden border-0 shadow-xl duration-500">
       <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
@@ -89,7 +103,7 @@ export function ResultCard({
             <Button
               className="order-1 bg-primary text-primary-foreground hover:bg-primary/90 sm:order-3"
               disabled={isPublishing}
-              onClick={onUseAndPublish}
+              onClick={handleUseAndPublish}
               size="sm"
             >
               {isPublishing ? "Sharing..." : "Use & Share"}
