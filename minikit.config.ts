@@ -41,7 +41,7 @@ export const minikitConfig = {
     webhookUrl: `${ROOT_URL}/api/webhook`,
     primaryCategory: "social",
     tags: ["ai", "positivity", "writing"],
-    heroImageUrl: `${ROOT_URL}/opengraph-image.png`,
+    heroImageUrl: `${ROOT_URL}/miniapp-hero.png`,
     tagline: "Turn Negativity Into Positivity",
     ogTitle: "PosiFrame",
     ogDescription: "Make your words more positive and friendly.",
