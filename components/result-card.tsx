@@ -33,7 +33,6 @@ export function ResultCard({
       return;
     }
 
-    // Construct the viral share URL
     const shareUrl = `${minikitConfig.miniapp.homeUrl}/share?text=${encodeURIComponent(
       result.suggestion
     )}`;
