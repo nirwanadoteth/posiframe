@@ -14,7 +14,6 @@ export async function generateMetadata({
   const streak = typeof params.streak === "string" ? params.streak : undefined;
   const count = typeof params.count === "string" ? params.count : undefined;
 
-  // Build API URL
   const query = new URLSearchParams();
   if (text) {
     query.set("text", text);
@@ -26,7 +25,6 @@ export async function generateMetadata({
     query.set("count", count);
   }
 
-  // Base URL for the dynamic image
   const ogImage = `${minikitConfig.miniapp.homeUrl}/api/og?${query.toString()}`;
 
   const title = streak
@@ -73,7 +71,5 @@ export default async function SharePage({ searchParams }: Props) {
   const params = await searchParams;
   const text = typeof params.text === "string" ? params.text : undefined;
 
-  // We can pass the text to Home if we want to pre-fill it or show it
-  // For now, simply rendering Home is enough to get the app running
   return <Home initialText={text} />;
 }
