@@ -54,7 +54,6 @@ export function StatisticsCard({
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
-        {/* Streak Card - Viral Hook */}
         <Card className="glass-card relative overflow-hidden border-orange-500/20 bg-gradient-to-br from-orange-500/10 to-transparent">
           <CardContent className="flex flex-col items-center justify-center p-4 text-center">
             <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400">
@@ -69,7 +68,6 @@ export function StatisticsCard({
           </CardContent>
         </Card>
 
-        {/* Toxicity Blocked - Impact Stat */}
         <Card className="glass-card border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-transparent">
           <CardContent className="flex flex-col items-center justify-center p-4 text-center">
             <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
