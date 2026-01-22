@@ -5,13 +5,14 @@ import { cn } from "@/lib/utils";
 import { minikitConfig } from "@/minikit.config";
 import { Provider } from "./provider";
 
-const frame = {
+const miniappEmbed = {
   version: minikitConfig.miniapp.version,
   imageUrl: minikitConfig.miniapp.heroImageUrl,
   button: {
     title: `Open ${minikitConfig.miniapp.name}`,
     action: {
       type: "launch_frame",
+      url: minikitConfig.miniapp.homeUrl,
       name: minikitConfig.miniapp.name,
       splashImageUrl: minikitConfig.miniapp.splashImageUrl,
       splashBackgroundColor: minikitConfig.miniapp.splashBackgroundColor,
@@ -29,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description:
         minikitConfig.miniapp.ogDescription ||
         minikitConfig.miniapp.description,
-      images: [minikitConfig.miniapp.heroImageUrl],
+      images: [minikitConfig.miniapp.ogImageUrl],
       url: minikitConfig.miniapp.homeUrl,
       siteName: minikitConfig.miniapp.name,
     },
@@ -39,11 +40,10 @@ export async function generateMetadata(): Promise<Metadata> {
       description:
         minikitConfig.miniapp.ogDescription ||
         minikitConfig.miniapp.description,
-      images: [minikitConfig.miniapp.heroImageUrl],
+      images: [minikitConfig.miniapp.ogImageUrl],
     },
     other: {
-      "fc:frame": JSON.stringify(frame),
-      "fc:miniapp": JSON.stringify(frame),
+      "fc:miniapp": JSON.stringify(miniappEmbed),
     },
   };
 }
