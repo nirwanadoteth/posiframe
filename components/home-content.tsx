@@ -145,7 +145,7 @@ export function HomeContent({ initialText }: { initialText?: string }) {
 
   return (
     <>
-      <div className="flex flex-1 flex-col items-center justify-center p-4">
+      <div className="flex flex-1 flex-col items-center justify-center p-3 sm:p-4">
         <div className="fade-in slide-in-from-bottom-4 w-full max-w-2xl animate-in space-y-4 duration-700">
           <header className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 rounded-full bg-background/50 px-2 py-1 backdrop-blur-sm sm:px-3 sm:py-1.5">
@@ -171,7 +171,8 @@ export function HomeContent({ initialText }: { initialText?: string }) {
                 size="sm"
                 variant="ghost"
               >
-                Clear Key
+                <span className="hidden sm:inline">Clear Key</span>
+                <span className="inline sm:hidden">Clear</span>
               </Button>
             )}
           </header>
