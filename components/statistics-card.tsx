@@ -1,6 +1,7 @@
 "use client";
 
 import sdk from "@farcaster/miniapp-sdk";
+import { captureException } from "@sentry/nextjs";
 import { Flame, Share2, ShieldCheck, Trophy } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -46,7 +47,7 @@ export function StatisticsCard({
         embeds: [],
       });
     } catch (error) {
-      console.error("Failed to open composer", error);
+      captureException(error);
       toast.error("Could not open Farcaster composer");
     }
   };
