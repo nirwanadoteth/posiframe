@@ -1,5 +1,6 @@
 "use client";
 import sdk, { type Context } from "@farcaster/miniapp-sdk";
+import { captureException } from "@sentry/nextjs";
 import {
   createContext,
   type ReactNode,
@@ -54,7 +55,9 @@ function MiniAppProviderContent({ children }: { children: ReactNode }) {
     });
 
     sdk.on("miniAppAddRejected", ({ reason }) => {
-      console.error("MiniApp add rejected", reason);
+      captureException(
+        new Error(`MiniApp add rejected: ${JSON.stringify(reason)}`)
+      );
     });
 
     sdk.on("miniAppRemoved", () => {
@@ -82,7 +85,7 @@ function MiniAppProviderContent({ children }: { children: ReactNode }) {
         const miniAppContext = await sdk.context;
         setContext(miniAppContext);
       } catch (error) {
-        console.error("Error fetching context:", error);
+        captureException(error);
       }
     }
 
