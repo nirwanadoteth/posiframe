@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { type MessageTypes, messageSchema } from "@/lib/schema";
 
 type MessageFormProps = {
-  onSubmit: (data: MessageTypes) => Promise<void>;
+  onSubmit: (data: MessageTypes) => Promise<void> | void;
   onPublish: () => Promise<void>;
   isAnalyzing?: boolean;
   isPublishing?: boolean;
