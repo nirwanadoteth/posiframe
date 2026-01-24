@@ -83,7 +83,7 @@ export function ResultCard({
 
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-end sm:gap-3">
           <Button
-            className="order-3 text-muted-foreground hover:text-foreground sm:order-1"
+            className="order-3 text-muted-foreground transition-transform hover:text-foreground active:scale-95 sm:order-1"
             onClick={onKeepOriginal}
             size="sm"
             variant="ghost"
@@ -91,7 +91,7 @@ export function ResultCard({
             Keep Original
           </Button>
           <Button
-            className="order-2 border-primary/20 hover:bg-primary/5"
+            className="order-2 border-primary/20 transition-transform hover:bg-primary/5 active:scale-95"
             onClick={onUseSuggestion}
             size="sm"
             variant="outline"
@@ -100,7 +100,7 @@ export function ResultCard({
           </Button>
           {canPublish && onUseAndPublish && (
             <Button
-              className="order-1 bg-primary text-primary-foreground hover:bg-primary/90 sm:order-3"
+              className="order-1 bg-primary text-primary-foreground transition-transform hover:bg-primary/90 active:scale-95 sm:order-3"
               disabled={isPublishing}
               onClick={handleUseAndPublish}
               size="sm"
