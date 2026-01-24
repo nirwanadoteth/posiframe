@@ -59,7 +59,9 @@ export function MessageForm({
             render={({ field }) => (
               <FormItem>
                 <Textarea
+                  autoComplete="off"
                   className="min-h-[120px] resize-y border-border bg-white/50 text-base shadow-inner backdrop-blur-sm transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/10 sm:min-h-[150px] dark:bg-zinc-900/50 dark:focus:bg-zinc-900"
+                  enterKeyHint="go"
                   placeholder="Type your message here..."
                   {...field}
                 />
@@ -69,7 +71,7 @@ export function MessageForm({
           />
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
             <Button
-              className="border-primary/20 text-primary hover:bg-primary/5 hover:text-primary"
+              className="border-primary/20 text-primary transition-transform hover:bg-primary/5 hover:text-primary active:scale-95"
               disabled={isAnalyzing || isDisabled}
               type="submit"
               variant="outline"
@@ -77,7 +79,7 @@ export function MessageForm({
               {isAnalyzing ? "Analyzing..." : "Analyze & Refine"}
             </Button>
             <Button
-              className="bg-gradient-to-r from-primary to-purple-600 shadow-md transition-all hover:from-primary/90 hover:to-purple-600/90 hover:shadow-primary/25"
+              className="bg-gradient-to-r from-primary to-purple-600 shadow-md transition-all hover:from-primary/90 hover:to-purple-600/90 hover:shadow-primary/25 active:scale-95"
               disabled={isPublishing || isDisabled || !hasContext}
               onClick={onPublish}
               type="button"
