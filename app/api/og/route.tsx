@@ -1,3 +1,4 @@
+import { captureException } from "@sentry/nextjs";
 import { ImageResponse } from "next/og";
 import type { JSX } from "react";
 
@@ -144,7 +145,7 @@ export function GET(request: Request) {
       }
     );
   } catch (e) {
-    console.error(e);
+    captureException(e);
     return new Response("Failed to generate the image", {
       status: 500,
     });
