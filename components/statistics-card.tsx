@@ -85,7 +85,7 @@ export function StatisticsCard({
 
       {canShare && (
         <Button
-          className="w-full gap-2 bg-gradient-to-r from-purple-600 to-blue-600 shadow-md transition-all hover:scale-[1.02] hover:shadow-lg"
+          className="w-full gap-2 bg-gradient-to-r from-purple-600 to-blue-600 shadow-md transition-all hover:scale-[1.02] hover:shadow-lg active:scale-95"
           onClick={handleShare}
           size="sm"
           variant="outline"
