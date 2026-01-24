@@ -2,8 +2,9 @@
 
 import sdk from "@farcaster/miniapp-sdk";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { AlertCircle } from "lucide-react";
-import { useCallback, useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 import { type RefineResult, refineMessage } from "@/app/actions/refine";
@@ -30,25 +31,48 @@ export function HomeContent({ initialText }: { initialText?: string }) {
   const { apiKey, hasKey, saveKey, clearKey } = useStoredApiKey();
   const { statistics, updateStatistics } = useStatistics();
 
-  const [isPending, startTransition] = useTransition();
-  const [isPublishing, setIsPublishing] = useState(false);
   const [result, setResult] = useState<RefineResult | null>(null);
-  const [error, setError] = useState("");
+  const [isPublishing, setIsPublishing] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [showApiKeyDialog, setShowApiKeyDialog] = useState(false);
+
+  const {
+    mutate: refine,
+    isPending,
+    error: mutationError,
+    reset: resetMutation,
+  } = useMutation({
+    mutationFn: async (formData: MessageTypes) => {
+      const payload = new FormData();
+      payload.append("text", formData.text);
+      payload.append("apiKey", apiKey);
+
+      const res = await refineMessage({}, payload);
+      if (res.error) {
+        throw new Error(res.error);
+      }
+      return res.data;
+    },
+    onSuccess: (data) => {
+      if (data) {
+        setResult(data);
+        updateStatistics(data.isNegative);
+      }
+    },
+  });
 
   useEffect(() => {
     setMiniAppReady();
   }, [setMiniAppReady]);
 
   useEffect(() => {
-    if (error) {
-      toast.error(error, {
+    if (mutationError) {
+      toast.error(mutationError.message, {
         description: "Please try again",
         duration: 5000,
       });
     }
-  }, [error]);
+  }, [mutationError]);
 
   useEffect(() => {
     if (successMessage) {
@@ -63,16 +87,16 @@ export function HomeContent({ initialText }: { initialText?: string }) {
     async (data: ApiKeyTypes) => {
       const success = await saveKey(data.apiKey);
       if (success) {
-        setError("");
+        resetMutation();
         setShowApiKeyDialog(false);
         toast.success("API Key saved! You can now refine messages.");
       }
     },
-    [saveKey]
+    [saveKey, resetMutation]
   );
 
   const handleRefine = useCallback(
-    async (formData: MessageTypes) => {
+    (formData: MessageTypes) => {
       if (!formData.text.trim()) {
         return;
       }
@@ -82,25 +106,11 @@ export function HomeContent({ initialText }: { initialText?: string }) {
         return;
       }
 
-      setError("");
       setResult(null);
-
-      await startTransition(async () => {
-        const payload = new FormData();
-        payload.append("text", formData.text);
-        payload.append("apiKey", apiKey);
-
-        const result = await refineMessage({}, payload);
-
-        if (result.error) {
-          setError(result.error);
-        } else if (result.success && result.data) {
-          setResult(result.data);
-          updateStatistics(result.data.isNegative);
-        }
-      });
+      resetMutation();
+      refine(formData);
     },
-    [apiKey, hasKey, updateStatistics]
+    [hasKey, refine, resetMutation]
   );
 
   const handleUseSuggestion = useCallback(() => {
@@ -112,12 +122,12 @@ export function HomeContent({ initialText }: { initialText?: string }) {
   const handlePublishToFarcaster = useCallback(
     async (textOrUrl: string) => {
       if (!textOrUrl.trim()) {
-        setError("Please enter text to publish");
+        toast.error("Please enter text to publish");
         return;
       }
 
       setIsPublishing(true);
-      setError("");
+      resetMutation();
       setSuccessMessage("");
 
       try {
@@ -133,12 +143,12 @@ export function HomeContent({ initialText }: { initialText?: string }) {
 
         setSuccessMessage("Successfully opened composer! 🎉");
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to publish");
+        toast.error(err instanceof Error ? err.message : "Failed to publish");
       } finally {
         setIsPublishing(false);
       }
     },
-    [context]
+    [context, resetMutation]
   );
 
   const user = context?.user;
@@ -190,13 +200,13 @@ export function HomeContent({ initialText }: { initialText?: string }) {
             />
           </div>
 
-          {error && (
+          {mutationError && (
             <Alert
               className="fade-in zoom-in-95 animate-in duration-300"
               variant="destructive"
             >
               <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
+              <AlertDescription>{mutationError.message}</AlertDescription>
             </Alert>
           )}
 
@@ -246,7 +256,7 @@ function MessageFormWrapper({
   hasContext,
   initialText,
 }: {
-  onSubmit: (data: MessageTypes) => Promise<void>;
+  onSubmit: (data: MessageTypes) => Promise<void> | void;
   onPublish: (text: string) => Promise<void>;
   isAnalyzing: boolean;
   isPublishing: boolean;
