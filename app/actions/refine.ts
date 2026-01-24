@@ -1,6 +1,7 @@
 "use server";
 
 import { GoogleGenAI } from "@google/genai";
+import { captureException } from "@sentry/nextjs";
 import z from "zod/v3";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { AI_CONFIG } from "@/lib/constants";
@@ -64,7 +65,7 @@ export async function refineMessage(
     const jsonResponse = responseSchema.parse(JSON.parse(textResponse));
     return { success: true, data: jsonResponse };
   } catch (error) {
-    console.error("Refine Action Error:", error);
+    captureException(error);
     return {
       error: error instanceof Error ? error.message : "Internal Server Error",
     };
