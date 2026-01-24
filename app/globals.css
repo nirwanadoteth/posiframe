@@ -170,13 +170,15 @@
   }
   body {
     @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary font-sans;
-    /* Ensure minimum touch target size for interactive elements */
-    & button,
-    & a,
-    & input,
-    & select,
-    & textarea {
-      @apply min-h-[44px] min-w-[44px];
+    /* Ensure minimum touch target size for interactive elements only on touch devices */
+    @media (pointer: coarse) {
+      & button,
+      & a,
+      & input,
+      & select,
+      & textarea {
+        @apply min-h-[44px] min-w-[44px];
+      }
     }
   }
 }
