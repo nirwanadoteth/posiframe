@@ -1,6 +1,8 @@
 // Using standard Web Crypto API (AES-GCM)
 // No external dependencies required
 
+import { captureException } from "@sentry/nextjs";
+
 const SECRET_KEY =
   process.env.NEXT_PUBLIC_ENCRYPTION_KEY || "posiframe-secure-storage-key";
 
@@ -10,7 +12,7 @@ const getCryptoKey = async (salt: Uint8Array): Promise<CryptoKey> => {
   // Import the password as a key material
   const keyMaterial = await window.crypto.subtle.importKey(
     "raw",
-    enc.encode(SECRET_KEY),
+    enc.encode(SECRET_KEY) as unknown as BufferSource,
     { name: "PBKDF2" },
     false,
     ["deriveKey"]
@@ -20,7 +22,7 @@ const getCryptoKey = async (salt: Uint8Array): Promise<CryptoKey> => {
   return window.crypto.subtle.deriveKey(
     {
       name: "PBKDF2",
-      salt,
+      salt: salt as unknown as BufferSource,
       iterations: 100_000,
       hash: "SHA-256",
     },
@@ -59,7 +61,7 @@ export const encryptData = async (data: string): Promise<string> => {
     // Convert to base64 for storage
     return btoa(String.fromCharCode(...packer));
   } catch (error) {
-    console.error("Encryption failed", error);
+    captureException(error);
     return "";
   }
 };
@@ -88,7 +90,7 @@ export const decryptData = async (ciphertext: string): Promise<string> => {
 
     return new TextDecoder().decode(decrypted);
   } catch (error) {
-    console.error("Decryption failed", error);
+    captureException(error);
     return "";
   }
 };
