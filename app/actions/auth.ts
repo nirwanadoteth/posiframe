@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient, Errors } from "@farcaster/quick-auth";
+import { captureException } from "@sentry/nextjs";
 import { headers } from "next/headers";
 
 const client = createClient();
@@ -53,7 +54,7 @@ export async function verifyFarcasterToken(): Promise<VerifyTokenResult> {
       return { success: false, error: "Invalid token" };
     }
     if (e instanceof Error) {
-      console.error("Auth Error:", e);
+      captureException(e);
       return { success: false, error: e.message };
     }
     return { success: false, error: "Unknown authentication error" };
