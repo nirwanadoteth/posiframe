@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -29,7 +30,6 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
 
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
@@ -48,6 +48,9 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
 
   @keyframes blob {
     0% {
@@ -96,7 +99,6 @@
   --accent-foreground: oklch(0.4 0.2 270);
 
   --destructive: oklch(0.6 0.2 20);
-  --destructive-foreground: oklch(1 0 0);
 
   --border: oklch(0.9 0.02 260);
   --input: oklch(0.9 0.02 260);
@@ -107,6 +109,8 @@
   --chart-3: oklch(0.75 0.14 310);
   --chart-4: oklch(0.5 0.15 240);
   --chart-5: oklch(0.6 0.12 220);
+
+  --radius: 0.875rem;
 
   --sidebar: oklch(0.98 0 0);
   --sidebar-foreground: oklch(0.15 0.04 260);
@@ -142,7 +146,6 @@
   --accent-foreground: oklch(0.9 0.05 270);
 
   --destructive: oklch(0.4 0.2 20);
-  --destructive-foreground: oklch(1 0 0);
 
   --border: oklch(0.25 0.04 260 / 0.5);
   --input: oklch(0.25 0.04 260 / 0.5);
