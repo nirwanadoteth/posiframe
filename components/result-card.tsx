@@ -1,6 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { minikitConfig } from "@/minikit.config";
 
@@ -44,20 +51,21 @@ export function ResultCard({
     <Card className="glass-card fade-in slide-in-from-bottom-8 relative animate-in overflow-hidden border-0 shadow-xl duration-500">
       <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="font-heading font-semibold text-lg">
-          Analysis Result
-        </CardTitle>
-        <Badge
-          className={cn(
-            "px-3 py-1 font-medium",
-            !result.isNegative &&
-              "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400"
-          )}
-          variant={result.isNegative ? "destructive" : "default"}
-        >
-          {result.sentiment}
-        </Badge>
+      <CardHeader>
+        <CardTitle>Analysis Result</CardTitle>
+        <CardDescription>{result.sentiment}</CardDescription>
+        <CardAction>
+          <Badge
+            className={cn(
+              "font-medium",
+              !result.isNegative &&
+                "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400"
+            )}
+            variant={result.isNegative ? "destructive" : "default"}
+          >
+            {result.isNegative ? "Negative" : "Positive"}
+          </Badge>
+        </CardAction>
       </CardHeader>
 
       <CardContent className="space-y-4 pt-4">
