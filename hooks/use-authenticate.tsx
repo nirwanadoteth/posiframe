@@ -1,7 +1,9 @@
-import sdk from '@farcaster/miniapp-sdk';
-import type { SignIn as SignInCore } from '@farcaster/miniapp-sdk';
-import { useCallback } from 'react';
-import { useMiniApp } from './use-mini-app';
+import type { SignIn as SignInCore } from "@farcaster/miniapp-sdk";
+import sdk from "@farcaster/miniapp-sdk";
+import { useCallback } from "react";
+import { useMiniApp } from "./use-mini-app";
+
+const CAMEL_CASE_REGEX = /^([^\s]+)(?:\s+)?/;
 
 type ParsedSignInMessage = {
   address: string;
@@ -20,46 +22,46 @@ type ParsedSignInMessage = {
  * @returns {ParsedSignInMessage} - The parsed sign in message
  */
 export function parseSignInMessage(message: string): ParsedSignInMessage {
-  const [domainLine, address, ...rest] = message.split('\n');
+  const [domainLine, address, ...rest] = message.split("\n");
 
-  if (!domainLine || !address) {
-    throw new Error('Invalid sign in message format');
+  if (!(domainLine && address)) {
+    throw new Error("Invalid sign in message format");
   }
 
   const [domain] = domainLine.split(
-    ' wants you to sign in with your Ethereum account:',
+    " wants you to sign in with your Ethereum account:"
   );
 
   if (!domain) {
-    throw new Error('Invalid domain in message');
+    throw new Error("Invalid domain in message");
   }
 
   const parsedData: ParsedSignInMessage = {
     domain,
     address,
-    chainID: '',
-    issuedAt: '',
-    nonce: '',
+    chainID: "",
+    issuedAt: "",
+    nonce: "",
     resources: [],
-    uri: '',
-    version: '',
+    uri: "",
+    version: "",
   };
 
   return rest.reduce((acc, line) => {
-    if (line.includes(': ')) {
-      const [key, value] = line.split(': ');
+    if (line.includes(": ")) {
+      const [key, value] = line.split(": ");
       if (!key || value === undefined) {
         return acc;
       }
 
-      const camelKey = key.replace(/^([^\s]+)(?:\s+)?/, (_, firstWord) =>
-        firstWord.toLowerCase(),
+      const camelKey = key.replace(CAMEL_CASE_REGEX, (_, firstWord) =>
+        firstWord.toLowerCase()
       );
-      acc[camelKey as keyof Omit<ParsedSignInMessage, 'resources'>] = value;
+      acc[camelKey as keyof Omit<ParsedSignInMessage, "resources">] = value;
       return acc;
     }
 
-    if (line.startsWith('- ')) {
+    if (line.startsWith("- ")) {
       acc.resources.push(line.slice(2));
       return acc;
     }
@@ -95,23 +97,23 @@ function validateSignInMessage({
 
     // domain in message should match frame's domain
     if (domainUrlObj.hostname !== parsed.domain) {
-      throw new Error('Domain mismatch');
+      throw new Error("Domain mismatch");
     }
   }
 
   // validate nonce
   if (nonce && parsed.nonce !== nonce) {
-    throw new Error('Nonce mismatch');
+    throw new Error("Nonce mismatch");
   }
 
   // validate fid
   if (fid) {
     const fidRegex = new RegExp(`^farcaster://fid/${fid}$`);
     const fidMatch = parsed.resources.find((resource) =>
-      fidRegex.test(resource),
+      fidRegex.test(resource)
     );
     if (!fidMatch) {
-      throw new Error('Fid mismatch');
+      throw new Error("Fid mismatch");
     }
   }
 }
@@ -128,10 +130,10 @@ function generateSecureNonce(length = 8): string {
   crypto.getRandomValues(array);
   return Array.from(array)
     .map((val) => (val % 36).toString(36))
-    .join('');
+    .join("");
 }
 
-type UseAuthenticateProps = Omit<SignInCore.SignInOptions, 'nonce'> & {
+type UseAuthenticateProps = Omit<SignInCore.SignInOptions, "nonce"> & {
   nonce?: string;
 };
 
@@ -151,7 +153,7 @@ export const useAuthenticate = (domain?: string, skipValidation = false) => {
           signInOptions.nonce = generateSecureNonce();
         }
         const result = await sdk.actions.signIn(
-          signInOptions as SignInCore.SignInOptions,
+          signInOptions as SignInCore.SignInOptions
         );
         if (!skipValidation) {
           validateSignInMessage({
@@ -168,7 +170,7 @@ export const useAuthenticate = (domain?: string, skipValidation = false) => {
         return false;
       }
     },
-    [context?.user?.fid, domain, skipValidation],
+    [context?.user?.fid, domain, skipValidation]
   );
 
   return { signIn };
