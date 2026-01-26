@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { type RefineResult, refineMessage } from "@/app/actions/refine";
 import { ApiKeyCard } from "@/components/api-key-card";
 import { MessageForm } from "@/components/message-form";
+import { ModeToggle } from "@/components/mode-toggle";
 import { OnboardingModal } from "@/components/onboarding-modal";
 import { ResultCard } from "@/components/result-card";
 import { StatisticsCard } from "@/components/statistics-card";
@@ -174,17 +175,20 @@ export function HomeContent({ initialText }: { initialText?: string }) {
                 {user?.username ? `@${user.username}` : "Guest"}
               </span>
             </div>
-            {hasKey && (
-              <Button
-                className="text-muted-foreground hover:text-foreground"
-                onClick={clearKey}
-                size="sm"
-                variant="ghost"
-              >
-                <span className="hidden sm:inline">Clear Key</span>
-                <span className="inline sm:hidden">Clear</span>
-              </Button>
-            )}
+            <div className="flex items-center gap-2">
+              <ModeToggle />
+              {hasKey && (
+                <Button
+                  className="text-muted-foreground hover:text-foreground"
+                  onClick={clearKey}
+                  size="sm"
+                  variant="ghost"
+                >
+                  <span className="hidden sm:inline">Clear Key</span>
+                  <span className="inline sm:hidden">Clear</span>
+                </Button>
+              )}
+            </div>
           </header>
 
           <StatisticsCard canShare={!!context} statistics={statistics} />
