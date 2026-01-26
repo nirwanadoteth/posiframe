@@ -8,6 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { minikitConfig } from "@/minikit.config";
 
@@ -55,16 +60,29 @@ export function ResultCard({
         <CardTitle>Analysis Result</CardTitle>
         <CardDescription>{result.sentiment}</CardDescription>
         <CardAction>
-          <Badge
-            className={cn(
-              "font-medium",
-              !result.isNegative &&
-                "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400"
-            )}
-            variant={result.isNegative ? "destructive" : "default"}
-          >
-            {result.isNegative ? "Negative" : "Positive"}
-          </Badge>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Badge
+                  className={cn(
+                    "cursor-help font-medium",
+                    !result.isNegative &&
+                      "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400"
+                  )}
+                  variant={result.isNegative ? "destructive" : "default"}
+                >
+                  {result.isNegative ? "Negative" : "Positive"}
+                </Badge>
+              }
+            />
+            <TooltipContent>
+              <p>
+                {result.isNegative
+                  ? "This message was flagged as having negative sentiment"
+                  : "This message has positive sentiment"}
+              </p>
+            </TooltipContent>
+          </Tooltip>
         </CardAction>
       </CardHeader>
 
@@ -90,31 +108,58 @@ export function ResultCard({
         </div>
 
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-end sm:gap-3">
-          <Button
-            className="order-3 text-muted-foreground transition-transform hover:text-foreground active:scale-95 sm:order-1"
-            onClick={onKeepOriginal}
-            size="sm"
-            variant="ghost"
-          >
-            Keep Original
-          </Button>
-          <Button
-            className="order-2 border-primary/20 transition-transform hover:bg-primary/5 active:scale-95"
-            onClick={onUseSuggestion}
-            size="sm"
-            variant="outline"
-          >
-            Use Suggestion
-          </Button>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  className="order-3 text-muted-foreground transition-transform hover:text-foreground active:scale-95 sm:order-1"
+                  onClick={onKeepOriginal}
+                  size="sm"
+                  variant="ghost"
+                >
+                  Keep Original
+                </Button>
+              }
+            />
+            <TooltipContent>
+              <p>Use your original text without changes</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  className="order-2 border-primary/20 transition-transform hover:bg-primary/5 active:scale-95"
+                  onClick={onUseSuggestion}
+                  size="sm"
+                  variant="outline"
+                >
+                  Use Suggestion
+                </Button>
+              }
+            />
+            <TooltipContent>
+              <p>Copy the suggested message</p>
+            </TooltipContent>
+          </Tooltip>
           {canPublish && onUseAndPublish && (
-            <Button
-              className="order-1 bg-primary text-primary-foreground transition-transform hover:bg-primary/90 active:scale-95 sm:order-3"
-              disabled={isPublishing}
-              onClick={handleUseAndPublish}
-              size="sm"
-            >
-              {isPublishing ? "Sharing..." : "Use & Share"}
-            </Button>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    className="order-1 bg-primary text-primary-foreground transition-transform hover:bg-primary/90 active:scale-95 sm:order-3"
+                    disabled={isPublishing}
+                    onClick={handleUseAndPublish}
+                    size="sm"
+                  >
+                    {isPublishing ? "Sharing..." : "Use & Share"}
+                  </Button>
+                }
+              />
+              <TooltipContent>
+                <p>Use suggestion and share to Farcaster</p>
+              </TooltipContent>
+            </Tooltip>
           )}
         </div>
       </CardContent>
