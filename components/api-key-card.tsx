@@ -74,7 +74,7 @@ export function ApiKeyCard({ onSave, isLoading = false }: ApiKeyCardProps) {
               )}
             />
             <Button
-              className="h-11 w-full bg-gradient-to-r from-primary to-purple-600 font-medium text-lg tracking-wide shadow-lg transition-all hover:scale-[1.02] hover:from-primary/90 hover:to-purple-600/90 hover:shadow-primary/25"
+              className="h-11 w-full bg-primary font-medium text-lg tracking-wide shadow-lg transition-all hover:scale-[1.02] hover:bg-primary/90 hover:shadow-primary/25"
               disabled={isLoading}
               type="submit"
             >
