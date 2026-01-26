@@ -51,7 +51,7 @@ export function OnboardingModal() {
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
         <DialogHeader className="text-center">
-          <DialogTitle className="font-bold font-heading text-2xl text-gradient tracking-tight">
+          <DialogTitle className="font-bold font-heading text-2xl text-primary tracking-tight">
             PosiFrame
           </DialogTitle>
           <DialogDescription>
@@ -91,7 +91,7 @@ export function OnboardingModal() {
         </div>
         <DialogFooter>
           <Button
-            className="w-full bg-gradient-to-r from-primary to-purple-600 font-medium shadow-lg transition-all hover:scale-[1.02] hover:from-primary/90 hover:to-purple-600/90"
+            className="w-full bg-primary font-medium shadow-lg transition-all hover:scale-[1.02] hover:bg-primary/90"
             onClick={handleGetStarted}
           >
             Get Started
