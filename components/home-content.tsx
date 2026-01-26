@@ -231,7 +231,7 @@ export function HomeContent({ initialText }: { initialText?: string }) {
           )}
 
           <Dialog onOpenChange={setShowApiKeyDialog} open={showApiKeyDialog}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md p-0">
               <DialogTitle className="sr-only">
                 Connect Gemini API Key
               </DialogTitle>

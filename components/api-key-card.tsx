@@ -35,16 +35,16 @@ export function ApiKeyCard({ onSave, isLoading = false }: ApiKeyCardProps) {
 
   return (
     <Card className="border-0 bg-transparent shadow-none">
-      <CardHeader className="space-y-1 p-0 pb-4 text-center">
+      <CardHeader className="text-center">
         <CardTitle className="font-bold font-heading text-2xl tracking-tight">
           Connect Gemini
         </CardTitle>
-        <CardDescription className="text-muted-foreground/90 text-sm">
+        <CardDescription>
           To refine your message, we need a small favor. Please enter your
           Google Gemini API Key.
         </CardDescription>
       </CardHeader>
-      <CardContent className="p-0">
+      <CardContent>
         <Form {...form}>
           <form
             className="flex flex-col gap-4"
@@ -83,7 +83,7 @@ export function ApiKeyCard({ onSave, isLoading = false }: ApiKeyCardProps) {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="justify-center p-0 pt-4">
+      <CardFooter className="justify-center">
         <p className="text-muted-foreground text-xs">
           Don't have a key?{" "}
           <a
