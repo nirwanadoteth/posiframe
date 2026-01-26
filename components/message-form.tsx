@@ -95,14 +95,14 @@ export function MessageForm({
             <Tooltip>
               <TooltipTrigger
                 render={
-                    <Button
-                      className="bg-primary shadow-md transition-all hover:bg-primary/90 hover:shadow-primary/25 active:scale-95"
-                      disabled={isPublishing || isDisabled || !hasContext}
-                      onClick={onPublish}
-                      type="button"
-                    >
-                      {isPublishing ? "Publishing..." : "Share to Feed"}
-                    </Button>
+                  <Button
+                    className="bg-primary shadow-md transition-all hover:bg-primary/90 hover:shadow-primary/25 active:scale-95"
+                    disabled={isPublishing || isDisabled || !hasContext}
+                    onClick={onPublish}
+                    type="button"
+                  >
+                    {isPublishing ? "Publishing..." : "Share to Feed"}
+                  </Button>
                 }
               />
               <TooltipContent>
