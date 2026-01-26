@@ -60,6 +60,17 @@ export function StatisticsCard({
             <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400">
               <Flame className="h-6 w-6 fill-orange-600 text-orange-600 dark:fill-orange-400 dark:text-orange-400" />
             </div>
+              <div className="mb-2 w-full max-w-[80px]">
+              <div className="h-2 w-full overflow-hidden rounded-full bg-orange-200 dark:bg-orange-900/50">
+             <div 
+              className="h-full rounded-full bg-gradient-to-r from-orange-500 to-orange-600 transition-all duration-500"
+              style={{ width: `${Math.min((statistics.streakCount % 7) * (100/7), 100)}%` }}
+              />
+          </div>
+      <span className="mt-1 block text-muted-foreground text-xs">
+        {statistics.streakCount % 7 || 7}/7 days
+      </span>
+    </div>
             <p className="font-bold text-2xl text-foreground">
               {statistics.streakCount}
             </p>
