@@ -4,6 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { type MessageTypes, messageSchema } from "@/lib/schema";
 
 type MessageFormProps = {
@@ -42,12 +47,21 @@ export function MessageForm({
           Draft your message
         </h2>
         {!hasContext && (
-          <Badge
-            className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100 dark:bg-yellow-900/30 dark:text-yellow-500"
-            variant="secondary"
-          >
-            Preview Mode
-          </Badge>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Badge
+                  className="cursor-help bg-yellow-100 text-yellow-800 hover:bg-yellow-100 dark:bg-yellow-900/30 dark:text-yellow-500"
+                  variant="secondary"
+                >
+                  Preview Mode
+                </Badge>
+              }
+            />
+            <TooltipContent>
+              <p>You are viewing this outside of the Minikit environment</p>
+            </TooltipContent>
+          </Tooltip>
         )}
       </div>
 
@@ -78,14 +92,25 @@ export function MessageForm({
             >
               {isAnalyzing ? "Analyzing..." : "Analyze & Refine"}
             </Button>
-            <Button
-              className="bg-primary shadow-md transition-all hover:bg-primary/90 hover:shadow-primary/25 active:scale-95"
-              disabled={isPublishing || isDisabled || !hasContext}
-              onClick={onPublish}
-              type="button"
-            >
-              {isPublishing ? "Publishing..." : "Share to Feed"}
-            </Button>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                    <Button
+                      className="bg-primary shadow-md transition-all hover:bg-primary/90 hover:shadow-primary/25 active:scale-95"
+                      disabled={isPublishing || isDisabled || !hasContext}
+                      onClick={onPublish}
+                      type="button"
+                    >
+                      {isPublishing ? "Publishing..." : "Share to Feed"}
+                    </Button>
+                }
+              />
+              <TooltipContent>
+                {hasContext
+                  ? "Post your message directly to Farcaster"
+                  : "Available only in Minikit environment"}
+              </TooltipContent>
+            </Tooltip>
           </div>
         </form>
       </Form>
