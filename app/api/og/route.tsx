@@ -130,8 +130,7 @@ export function GET(request: Request) {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundImage:
-            "linear-gradient(to bottom right, #4c1d95, #7c3aed, #ea580c)",
+          backgroundColor: "#2d3bcc",
           color: "white",
           padding: "40px",
           textAlign: "center",
