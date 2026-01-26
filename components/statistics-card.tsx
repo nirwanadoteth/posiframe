@@ -55,7 +55,7 @@ export function StatisticsCard({
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
-        <Card className="glass-card relative overflow-hidden border-orange-500/20 bg-gradient-to-br from-orange-500/10 to-transparent">
+        <Card className="glass-card relative overflow-hidden border-orange-500/20 bg-orange-500/5">
           <CardContent className="flex flex-col items-center justify-center p-4 text-center">
             <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400">
               <Flame className="h-6 w-6 fill-orange-600 text-orange-600 dark:fill-orange-400 dark:text-orange-400" />
@@ -69,7 +69,7 @@ export function StatisticsCard({
           </CardContent>
         </Card>
 
-        <Card className="glass-card border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-transparent">
+        <Card className="glass-card border-blue-500/20 bg-blue-500/5">
           <CardContent className="flex flex-col items-center justify-center p-4 text-center">
             <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
               <ShieldCheck className="h-6 w-6" />
@@ -86,7 +86,7 @@ export function StatisticsCard({
 
       {canShare && (
         <Button
-          className="w-full gap-2 bg-gradient-to-r from-purple-600 to-blue-600 shadow-md transition-all hover:scale-[1.02] hover:shadow-lg active:scale-95"
+          className="w-full gap-2 bg-primary text-primary-foreground shadow-md transition-all hover:scale-[1.02] hover:bg-primary/90 hover:shadow-lg active:scale-95"
           onClick={handleShare}
           size="sm"
           variant="outline"
