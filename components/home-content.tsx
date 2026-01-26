@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AlertCircle } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { type RefineResult, refineMessage } from "@/app/actions/refine";
 import { ApiKeyCard } from "@/components/api-key-card";
 import { MessageForm } from "@/components/message-form";
@@ -231,7 +231,7 @@ export function HomeContent({ initialText }: { initialText?: string }) {
           )}
 
           <Dialog onOpenChange={setShowApiKeyDialog} open={showApiKeyDialog}>
-            <DialogContent className="sm:max-w-md p-0">
+            <DialogContent className="p-0 sm:max-w-md">
               <DialogTitle className="sr-only">
                 Connect Gemini API Key
               </DialogTitle>
@@ -242,8 +242,6 @@ export function HomeContent({ initialText }: { initialText?: string }) {
       </div>
 
       <OnboardingModal />
-
-      <Toaster closeButton position="top-center" richColors theme="system" />
     </>
   );
 }
