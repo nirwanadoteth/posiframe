@@ -79,7 +79,7 @@ export function MessageForm({
               {isAnalyzing ? "Analyzing..." : "Analyze & Refine"}
             </Button>
             <Button
-              className="bg-gradient-to-r from-primary to-purple-600 shadow-md transition-all hover:from-primary/90 hover:to-purple-600/90 hover:shadow-primary/25 active:scale-95"
+              className="bg-primary shadow-md transition-all hover:bg-primary/90 hover:shadow-primary/25 active:scale-95"
               disabled={isPublishing || isDisabled || !hasContext}
               onClick={onPublish}
               type="button"
