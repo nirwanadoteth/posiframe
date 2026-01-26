@@ -69,7 +69,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "mesh-bg-light dark:mesh-bg-dark min-h-screen font-sans antialiased transition-colors duration-500",
+          "min-h-screen font-sans antialiased transition-colors duration-500",
           fontVariables
         )}
       >
