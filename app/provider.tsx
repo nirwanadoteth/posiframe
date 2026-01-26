@@ -5,6 +5,7 @@ import { type ReactNode, useState } from "react";
 import { MiniAppProvider } from "@/components/providers/miniapp-provider";
 import { SafeArea } from "@/components/safe-area";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export function Provider({
   children,
@@ -17,7 +18,7 @@ export function Provider({
     <QueryClientProvider client={queryClient}>
       <MiniAppProvider>
         <SafeArea>
-          {children}
+          <TooltipProvider>{children}</TooltipProvider>
           <Toaster position="top-center" richColors theme="system" />
         </SafeArea>
       </MiniAppProvider>
