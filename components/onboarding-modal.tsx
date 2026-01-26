@@ -1,21 +1,18 @@
 "use client";
 
-import { MessageSquareHeart, Sparkles, Wand2, Zap } from "lucide-react";
+import { MessageSquareHeart, Wand2, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { STORAGE_KEYS } from "@/lib/constants";
 import { storage } from "@/lib/storage";
-
-type OnboardingModalProps = {
-  username?: string;
-};
 
 const features = [
   {
@@ -35,7 +32,7 @@ const features = [
   },
 ];
 
-export function OnboardingModal({ username }: OnboardingModalProps) {
+export function OnboardingModal() {
   const [open, setOpen] = useState(false);
 
   // Check onboarding status on mount
@@ -50,31 +47,20 @@ export function OnboardingModal({ username }: OnboardingModalProps) {
     setOpen(false);
   };
 
-  const greeting = username ? `Hello, @${username}!` : "Welcome!";
-
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
-        <DialogHeader className="space-y-3 text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-purple-500/20">
-            <Sparkles className="h-7 w-7 text-primary" />
-          </div>
+        <DialogHeader className="text-center">
           <DialogTitle className="font-bold font-heading text-2xl text-gradient tracking-tight">
             PosiFrame
           </DialogTitle>
-          <DialogDescription asChild>
-            <div className="space-y-1 text-center">
-              <p className="font-medium text-foreground">{greeting}</p>
-              <p className="text-muted-foreground text-sm">
-                Transform negative vibes into positive connections
-              </p>
-            </div>
+          <DialogDescription>
+            Transform negative vibes into positive connections
           </DialogDescription>
         </DialogHeader>
 
-        <div className="mt-4 space-y-4">
-          {/* Features */}
-          <div className="space-y-3">
+        <div className="space-y-4">
+          <div className="space-y-2">
             {features.map((feature) => (
               <div
                 className="flex items-start gap-3 rounded-lg bg-muted/50 p-3"
@@ -95,7 +81,6 @@ export function OnboardingModal({ username }: OnboardingModalProps) {
             ))}
           </div>
 
-          {/* How it works */}
           <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
             <p className="font-medium text-foreground text-sm">How it works</p>
             <p className="mt-1 text-muted-foreground text-xs leading-relaxed">
@@ -103,14 +88,15 @@ export function OnboardingModal({ username }: OnboardingModalProps) {
               suggest a more positive version while keeping your intent intact.
             </p>
           </div>
-
+        </div>
+        <DialogFooter>
           <Button
             className="w-full bg-gradient-to-r from-primary to-purple-600 font-medium shadow-lg transition-all hover:scale-[1.02] hover:from-primary/90 hover:to-purple-600/90"
             onClick={handleGetStarted}
           >
             Get Started
           </Button>
-        </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

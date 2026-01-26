@@ -241,7 +241,7 @@ export function HomeContent({ initialText }: { initialText?: string }) {
         </div>
       </div>
 
-      <OnboardingModal username={user?.username} />
+      <OnboardingModal />
 
       <Toaster closeButton position="top-center" richColors theme="system" />
     </>
