@@ -1,7 +1,5 @@
 "use client";
 
-import type { Root } from "@radix-ui/react-label";
-import { Slot } from "@radix-ui/react-slot";
 import { type ComponentProps, createContext, useContext, useId } from "react";
 import {
   Controller,
@@ -86,7 +84,7 @@ function FormItem({ className, ...props }: ComponentProps<"div">) {
   );
 }
 
-function FormLabel({ className, ...props }: ComponentProps<typeof Root>) {
+function FormLabel({ className, ...props }: ComponentProps<typeof Label>) {
   const { error, formItemId } = useFormField();
 
   return (
@@ -95,23 +93,6 @@ function FormLabel({ className, ...props }: ComponentProps<typeof Root>) {
       data-error={!!error}
       data-slot="form-label"
       htmlFor={formItemId}
-      {...props}
-    />
-  );
-}
-
-function FormControl({ ...props }: ComponentProps<typeof Slot>) {
-  const { error, formItemId, formDescriptionId, formMessageId } =
-    useFormField();
-
-  return (
-    <Slot
-      aria-describedby={
-        error ? `${formDescriptionId} ${formMessageId}` : `${formDescriptionId}`
-      }
-      aria-invalid={!!error}
-      data-slot="form-control"
-      id={formItemId}
       {...props}
     />
   );
@@ -155,7 +136,6 @@ export {
   Form,
   FormItem,
   FormLabel,
-  FormControl,
   FormDescription,
   FormMessage,
   FormField,
