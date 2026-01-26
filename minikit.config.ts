@@ -36,7 +36,7 @@ export const minikitConfig = {
     ],
     iconUrl: `${ROOT_URL}/icon.png`,
     splashImageUrl: `${ROOT_URL}/icon.png`,
-    splashBackgroundColor: "#7C3AED", // Matching primary color
+    splashBackgroundColor: "#2d3bcc",
     homeUrl: ROOT_URL,
     webhookUrl: `${ROOT_URL}/api/webhook`,
     primaryCategory: "social",
