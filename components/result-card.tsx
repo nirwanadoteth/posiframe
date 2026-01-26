@@ -49,7 +49,7 @@ export function ResultCard({
 
   return (
     <Card className="glass-card fade-in slide-in-from-bottom-8 relative animate-in overflow-hidden border-0 shadow-xl duration-500">
-      <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      <div className="absolute inset-x-0 -top-px h-px bg-primary/20" />
 
       <CardHeader>
         <CardTitle>Analysis Result</CardTitle>
@@ -78,7 +78,7 @@ export function ResultCard({
           </p>
         </div>
 
-        <div className="relative overflow-hidden rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 to-purple-500/5 p-4 shadow-sm dark:from-primary/10 dark:to-purple-500/10">
+        <div className="relative overflow-hidden rounded-xl border border-primary/20 bg-primary/5 p-4 shadow-sm">
           <div className="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-primary/10 blur-2xl" />
 
           <h3 className="relative mb-2 font-semibold text-primary/80 text-sm">
