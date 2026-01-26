@@ -1,38 +1,37 @@
 "use client";
 
-import { Indicator, Item, Root } from "@radix-ui/react-radio-group";
+import { Radio as RadioPrimitive } from "@base-ui/react/radio";
+import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group";
 import { CircleIcon } from "lucide-react";
-import type { ComponentProps } from "react";
-
 import { cn } from "@/lib/utils";
 
-function RadioGroup({ className, ...props }: ComponentProps<typeof Root>) {
+function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
   return (
-    <Root
-      className={cn("grid gap-3", className)}
+    <RadioGroupPrimitive
+      className={cn("grid w-full gap-3", className)}
       data-slot="radio-group"
       {...props}
     />
   );
 }
 
-function RadioGroupItem({ className, ...props }: ComponentProps<typeof Item>) {
+function RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {
   return (
-    <Item
+    <RadioPrimitive.Root
       className={cn(
-        "aspect-square size-4 shrink-0 rounded-full border border-input text-primary shadow-xs outline-none transition-[color,box-shadow] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:ring-destructive/40",
+        "group/radio-group-item peer relative flex aspect-square size-4 shrink-0 rounded-full border border-input text-primary outline-none transition-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-[2px] focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-[2px] aria-invalid:ring-destructive/20 data-checked:border-primary data-checked:bg-primary dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
         className
       )}
       data-slot="radio-group-item"
       {...props}
     >
-      <Indicator
-        className="relative flex items-center justify-center"
+      <RadioPrimitive.Indicator
+        className="flex size-4 items-center justify-center text-white group-aria-invalid/radio-group-item:text-destructive"
         data-slot="radio-group-indicator"
       >
-        <CircleIcon className="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 fill-primary" />
-      </Indicator>
-    </Item>
+        <CircleIcon className="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 fill-current" />
+      </RadioPrimitive.Indicator>
+    </RadioPrimitive.Root>
   );
 }
 
